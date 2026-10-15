@@ -13,6 +13,19 @@ Tags : `[USER]` `[CODE]` `[TOOL]` `[ASSUMPTION]`. Inconnu = `UNCONFIRMED`.
 - 2026-10-15T16:30Z `[CODE]` **La position déclarée prime sur le vote.** EPR déclare voter contre la
   motion de rejet et vote 50/15/16 : `stance` = déclaration (`stance_basis: sourced`), `evidence` =
   vote. Les deux coexistent.
+- 2026-10-15T17:15Z `[USER]` Le corpus couvre toute la navette : votes sur le texte final, CMP
+  (discussions et votes), propositions de loi en niche parlementaire, projets de loi du gouvernement,
+  et idem au Sénat.
+- 2026-10-15T17:25Z `[CODE]` Le test compare des **partis** (`party`), adossés à des groupes
+  chambre-spécifiques (`group`). Les deux chambres n'ont pas le même vocabulaire : RN/UNT,
+  DR/Les Républicains, SOC/SER, ECOS/GEST, GDR/CRCE-K, EPR/RDPI.
+- 2026-10-15T17:25Z `[CODE]` Un texte = une **navette** (liste d'étapes : dépôt, 1re lecture, CMP,
+  lecture définitive, promulgation). La `stance` est ancrée sur l'étape décisive ; les autres étapes
+  restent du contexte. Sinon on écrase les changements de position entre lectures.
+- 2026-10-15T17:25Z `[CODE]` Le **gouvernement** est un acteur distinct (`kind: "gouvernement"`),
+  pas un parti : sa position s'affiche en contexte, elle n'est pas une option de réponse.
+- 2026-10-15T17:25Z `[CODE]` Le scrutin de fin d'étape devient **facultatif** : une niche
+  parlementaire s'arrête à minuit et les derniers textes ne sont pas votés du tout.
 - 2026-10-15T16:30Z `[CODE]` `justification` = **citation verbatim attribuée** (`speaker` +
   `source_ref`), plafond 45 mots pour un document officiel, 25 pour la presse. `justification_exempt`
   motivé seulement quand aucun orateur de groupe ne peut exister (NI).
@@ -23,6 +36,20 @@ Tags : `[USER]` `[CODE]` `[TOOL]` `[ASSUMPTION]`. Inconnu = `UNCONFIRMED`.
 
 ## [DISCOVERIES]
 
+- 2026-10-15T17:20Z `[TOOL]` **La CMP n'est pas opaque.** Huis clos, mais un compte rendu **écrit**
+  est publié (`senat.fr/compte-rendu-commissions/<semaine>/cmp.html`) et enregistre les votes article
+  par article. Vérifié : page accessible, ~25 k de texte, 12 mentions de rapporteurs.
+- 2026-10-15T17:20Z `[TOOL]` Les comptes rendus de **commission** existent aussi
+  (`senat.fr/compte-rendu-commissions/`), donc l'étape où les amendements se décident est documentée.
+- 2026-10-15T17:20Z `[TOOL]` Données Sénat (`scrutins_senat.json`, 2 132 lignes, depuis 2017) :
+  **schéma d'agrégat différent** de l'AN — `votants / suffrages_exprimes / pour / contre`, sans champ
+  abstention (à déduire). `senateurs.json` contient 29 valeurs de groupe dont des historiques
+  (RPR, U.N.R., MRP…), et mélange sigles et noms complets.
+- 2026-10-15T17:20Z `[TOOL]` Une **niche parlementaire** va de 9 h à minuit ; les derniers textes ne
+  sont souvent pas votés, et les articles peuvent être supprimés en commission avant la séance.
+- 2026-10-15T17:15Z `[TOOL]` La **DILA** publie les comptes rendus intégraux incluant les
+  explications de vote — piste pour les justifications sur le texte final (§6.6 ne couvre pour
+  l'instant que les débats de séance AN).
 - 2026-10-15T16:15Z `[TOOL]` **Correction d'une affirmation trop forte** : les *totaux* sont vérifiés,
   l'*attribution par groupe* ne l'est pas. Sur le scrutin 8427, notre reconstruction donne EPR pour
   50, HOR 25, SOC contre 65 ; l'AN donne 51, 24, 66. Les écarts se compensent donc invisibles au

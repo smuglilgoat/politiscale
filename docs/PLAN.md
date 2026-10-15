@@ -40,13 +40,24 @@ principal n'est pas un pourcentage.
 
 ## 4. Modèle de contenu
 
-### 4.0 L'unité est le **groupe parlementaire**, pas le parti
+### 4.0 Le test compare des **partis**, adossés à des groupes parlementaires
 
-Décision issue des données (§6.5) : les votes sont enregistrés par groupe, et c'est le seul niveau
-vérifiable. Le schéma ne connaît donc que `group` (`RN`, `EPR`, `SOC`, `LFI-NFP`, `DR`, `DEM`, `HOR`,
-`ECOS`, `LIOT`, `UDDPLR`, `GDR`, `NI`). Un `party` purement indicatif peut exister pour l'affichage,
-jamais pour la preuve. Cela supprime toute la classe d'ambiguïté « le parti X a dit, mais son groupe a
-voté ».
+Deux niveaux, et ils ne sont pas interchangeables :
+
+- **`party`** — entité canonique, indépendante de la chambre. C'est ce que voit l'utilisateur, parce
+  que les deux chambres n'ont pas le même vocabulaire : le Rassemblement national s'appelle `RN` à
+  l'Assemblée et `UNT` au Sénat ; Les Républicains `DR` à l'Assemblée et `Les Républicains` au Sénat ;
+  les socialistes `SOC` / `SER` ; les écologistes `ECOS` / `GEST` ; les communistes `GDR` / `CRCE-K` ;
+  Renaissance `EPR` / `RDPI`. Mapper à la main, chambre par chambre, dans `parties.json`.
+- **`group`** — l'étiquette de la chambre au moment du vote. C'est **le seul niveau prouvable**,
+  parce que c'est celui sous lequel les votes sont enregistrés.
+
+Un parti peut donc avoir `groups: { an: "RN", senat: "UNT" }`. Cela supprime l'ambiguïté
+« le parti dit X, son groupe vote Y » : le parti porte la position, le groupe porte la preuve.
+
+Le **gouvernement** est un acteur distinct (`kind: "gouvernement"`), pas un parti : il n'a pas de
+groupe et ne se mesure pas comme les autres. Sa position compte pour les projets de loi — portée par
+le ministre et le rapporteur — et s'affiche comme contexte, pas comme option de réponse.
 
 ### 4.1 `content/questions/<slug>.json`
 
@@ -120,6 +131,43 @@ rouge/bleu seuls — daltonisme), lien programme. Douze entrées, ça ne justifi
 Registre des liens : `kind` (`news` | `wikidata` | `officiel`), URL, date, **licence**, `archive_url`.
 Voir §8.
 
+### 4.4 Le corpus : toute la navette, pas un seul débat
+
+Un texte de loi n'a pas une position, il en a une par étape. Le modèle porte donc une **navette** :
+une liste ordonnée d'étapes, chacune avec sa chambre, son type, son scrutin et son compte rendu.
+
+```jsonc
+"navette": [
+  { "etape": "depot",              "chambre": null,     "date": "2026-04-08", "source_ref": "an-dossier" },
+  { "etape": "1re_lecture",        "chambre": "an",     "date": "2026-05-22", "scrutin": "VTANR5L17V…" },
+  { "etape": "1re_lecture",        "chambre": "senat",  "date": "2026-07-02", "scrutin": "2025-327",
+    "source_ref": "cr-senat-…" },
+  { "etape": "cmp",                "chambre": null,     "date": "2026-07-16", "source_ref": "cr-cmp-…" },
+  { "etape": "lecture_definitive", "chambre": "an",     "date": "2026-07-20", "scrutin": "VTANR5L17V8427" },
+  { "etape": "promulgation",       "chambre": null,     "date": "2026-08-18", "source_ref": "legifrance-2026-796" }
+]
+```
+
+Trois conséquences, toutes vérifiées sur données réelles :
+
+- **Le scrutin de la CMP existe.** La CMP siège à huis clos, mais un **compte rendu écrit** est publié
+  (Sénat, `compte-rendu-commissions/<semaine>/cmp.html`) et il enregistre les votes article par
+  article : « la commission mixte paritaire adopte l'article N dans la rédaction de… ». Le huis clos
+  interdit la diffusion, pas le compte rendu.
+- **Les comptes rendus de commission existent aussi** (`senat.fr/compte-rendu-commissions/`), donc
+  l'étape où les amendements se décident vraiment est documentée.
+- **Les niches parlementaires n'ont souvent pas de vote final.** Une journée d'initiative
+  parlementaire va de 9 h à minuit et les textes en fin d'ordre du jour ne sont pas examinés
+  (« peu de chances d'être étudiée »). Un texte de niche peut donc avoir des scrutins d'article et
+  **aucun** vote sur l'ensemble — et ses articles peuvent être supprimés en commission avant la
+  séance. Le scrutin de fin d'étape est donc **facultatif** : la porte exige une preuve, pas
+  nécessairement un vote final.
+
+Ancrage de la position : la question est ancrée sur **une étape** (la décisive : vote final, ou vote
+sur le texte de la CMP), et les positions sont prises à cette étape. Les autres étapes restent
+consultables comme contexte. C'est le seul moyen d'avoir une `stance` par parti sans écraser les
+changements de position entre lectures — et il y en a.
+
 ## 5. Ce que voit l'utilisateur
 
 **Question.** La situation, en clair. L'état du texte et sa date. Puis les positions des groupes,
@@ -144,10 +192,17 @@ Un ratio (`convergences / répondues`) peut être affiché en second, explicitem
 
 | Source | Usage | Licence |
 |---|---|---|
-| `nosparlementaires.fr` — `/opendata/*.json`, `/api/v1/*`, `/themes` | accès pratique, votes par groupe, taxonomie 30 thèmes | Licence Ouverte 2.0 |
+| `nosparlementaires.fr` — `/opendata/*.json`, `/api/v1/*`, `/themes` | accès pratique, votes par groupe, **AN et Sénat**, taxonomie 30 thèmes | Licence Ouverte 2.0 |
 | `data.assemblee-nationale.fr` — Votes, Dossiers législatifs, mandats | autorité, et **historique des mandats** (§6.5) | Licence Ouverte 2.0 |
-| Programmes / déclarations des groupes | justifications, citations courtes | citation + lien |
+| `data.senat.fr` — Travaux législatifs, Comptes rendus, Amendements | autorité côté Sénat | Licence Ouverte 2.0 |
+| `senat.fr/compte-rendu-commissions/` — comptes rendus de commission et de **CMP** | la seule trace écrite des votes en CMP et en commission | Licence Ouverte 2.0 |
+| Comptes rendus de séance AN | justifications verbatim (§6.6) | document parlementaire public |
+| Programmes / déclarations des partis | justifications, citations courtes | citation + lien |
 | Wikidata | faits structurés | CC0 |
+
+⚠️ Les agrégats des deux chambres ne sont pas les mêmes : l'AN publie
+`pour / contre / abstention / nonvotant`, le Sénat publie `votants / suffrages_exprimes / pour /
+contre` — l'abstention s'en déduit (`votants − suffrages exprimés`). Ne pas supposer la même forme.
 
 `nosparlementaires` publie un `manifest.json` avec **empreintes SHA-256** ; chaque instantané récupéré
 est épinglé par empreinte. Une position publiée reste vérifiable même si la source évolue. Pas de
@@ -353,8 +408,13 @@ cohésion à 80 % comme convention publiée.
 **Ouvert :**
 
 - Nombre de questions cible (~30 jouable, ~40 pour couvrir les thèmes).
+- **Étape d'ancrage** : quelle étape définit la `stance` affichée — vote final de l'Assemblée, vote
+  sur le texte de la CMP, ou les deux (une question par étape décisive) ? Tranché à « l'étape
+  décisive », à confirmer à l'usage.
+- **Le Sénat entre-t-il dans le test ?** Ses groupes n'ont pas les mêmes étiquettes que ceux de
+  l'Assemblée et sa composition a changé en septembre 2026. Mapping parti↔groupes à maintenir.
 - Faut-il stocker la position **déclarée** ou la position **votée** comme `stance` principale quand
-  les deux divergent (EPR) ? Tranché en faveur du déclaré, à confirmer à l'usage.
+  les deux divergent (EPR) ? Tranché en faveur du déclaré, à confirmer.
 - Langue : FR seul, ou FR/EN d'emblée ?
 
 ## 14. Références

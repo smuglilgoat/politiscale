@@ -1,6 +1,7 @@
 # Hemicycle — plan initial
 
-**Date :** 2026-10-15 · **Statut :** plan ; chaîne de données vérifiée de bout en bout (§6.5)
+**Date :** 2026-10-15 · **Statut :** M1b — totaux vérifiés, **attribution par groupe non publiable en l'état**
+(§6.5)
 **Périmètre :** France uniquement. Le modèle de contenu reste pays-agnostique (champ `country`) mais
 le seul corpus est français.
 
@@ -68,9 +69,12 @@ voté ».
   "positions": [
     {
       "group": "RN",
-      "stance": "pour",               // pour | contre | mitige | non_aborde
-      "stance_basis": "scrutin_derived",  // scrutin_derived | sourced
-      "justification": null,          // null => la porte de validation BLOQUE (voir §6.3)
+      "stance": "pour",               // pour | contre | abstention | mitige | non_aborde
+      "stance_basis": "sourced",      // sourced (déclaration) | scrutin_derived (déduit du vote)
+      "justification": "…",           // citation VERBATIM de l'orateur du groupe, plafonnée (§6.3)
+      "speaker": "David Magnier",     // qui l'a dit — sans orateur, pas de citation
+      "source_ref": "cr-2026-07-20",  // renvoi vers sources.json
+      "justification_exempt": null,   // motif, seulement quand aucun orateur ne peut exister (NI)
       "evidence": [
         { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8427",
           "pour": 122, "contre": 0, "abstention": 0, "nonvotant": 0 }
@@ -88,8 +92,16 @@ Règles non négociables :
 
 - `evidence` **non vide**. Une position sans preuve fait échouer la validation. La neutralité est
   appliquée par la machine, pas par la discipline.
-- `justification` est le seul champ que nous rédigeons, donc le seul contestable. Il vient d'une
-  déclaration du groupe ou d'un document de programme, cité. `null` = non publiable.
+- `justification` est une **citation verbatim** de l'orateur du groupe, avec `speaker` et
+  `source_ref`. C'est le seul texte dont nous sommes auteurs… en fait non : c'est le seul texte que
+  nous *choisissons*. On ne le réécrit pas. `null` = non publiable, sauf `justification_exempt`
+  motivé (cf. `NI` : les non-inscrits n'ont pas d'orateur de groupe, par construction).
+- **La position déclarée prime sur le vote.** Un groupe peut déclarer voter pour et se scinder dans
+  les urnes : EPR déclare voter contre la motion de rejet et vote 50 pour / 15 contre / 16
+  abstentions. `stance` porte la déclaration (`stance_basis: "sourced"`), `evidence` porte le vote.
+  Les deux faits coexistent au lieu de s'écraser.
+- **La cohésion ne se stocke pas.** Elle se recalcule depuis `evidence` (part du camp majoritaire
+  parmi les votants). L'écrire dans le contenu la ferait dériver du vote qu'elle décrit.
 - `stance` est distinct du vote. Un groupe peut voter *pour* un texte que le parti critique ailleurs :
   `stance: "mitige"` + `evidence` conserve les deux faits au lieu d'en écraser un.
 - `stance_basis` rend la provenance explicite : `scrutin_derived` (déduit mécaniquement du vote) ou
@@ -160,11 +172,11 @@ données** : le vrai scrutin portait sur l'ensemble de la loi agricole.
 
 `pipeline/validate-content.mjs`, en CI, **bloquant** :
 
-- schéma respecté ; `evidence` non vide ; `justification` non nulle (sinon non publiable) ;
-- `group` connu de `parties.json` ; `stance` dans l'énumération ;
-- tout `source` a `kind`, `licence`, `date` ;
-- citation de presse ≤ 25 mots ;
-- quota thématique tenu.
+- schéma respecté ; `evidence` non vide ; `stance` dans l'énumération ;
+- `group` connu de `parties.json` ; `source_ref` connu de `sources.json` ;
+- `justification` non nulle **et** accompagnée d'un `speaker`, sauf `justification_exempt` motivé ;
+- citation verbatim plafonnée selon la source : compte rendu officiel ≤ 45 mots, presse ≤ 25 mots ;
+- quota thématique tenu ; `situation_status == "source"`.
 
 ### 6.4 Droit de réponse et arbitrage des litiges
 
@@ -184,24 +196,40 @@ que se passe-t-il ? Réponse retenue, en trois niveaux :
 Ce qui reste ouvert : qui tranche si le groupe conteste un fait et pas l'interprétation. Seul, c'est
 le maillon faible du projet.
 
-### 6.5 Chaîne de données — vérifiée le 2026-10-15
+### 6.5 Chaîne de données — état réel de la vérification
 
-Test réel, sur données réelles : agrégation par groupe reconstruite depuis
-`votes_an.json` + `deputes.json`, comparée aux totaux publiés dans `scrutins_an.json`.
+**Ce qui est vérifié : les totaux.** L'agrégation reconstruite depuis `votes_an.json` +
+`deputes.json` redonne exactement les totaux publiés.
 
 | Scrutin | Reconstruit (pour/contre/abst) | Publié | |
 |---|---|---|---|
 | Aide à mourir, lecture définitive (14/07/2026) | 291 / 241 / 29 | 291 / 241 / 29 | ✅ |
-| Protection et souveraineté agricoles (19/07/2026) | 296 / 224 / 41 | 296 / 224 / 41 | ✅ |
+| Protection et souveraineté agricoles (20/07/2026) | 296 / 224 / 41 | 296 / 224 / 41 | ✅ |
 
-Le modèle hybride est donc alimentable. Deux limites trouvées, à traiter :
+**Ce qui n'est PAS vérifié : l'attribution par groupe.** Recoupement avec le tableau par groupe de
+l'AN sur le scrutin n° 8427 :
+
+| Groupe | Notre reconstruction | AN (officiel) | Écart |
+|---|---|---|---|
+| EPR pour | 50 | **51** | +1 |
+| HOR pour | 25 | 24 | −1 |
+| SOC contre | 65 | **66** | +1 |
+
+Les totaux se compensent, donc l'erreur ne se voit pas au niveau global — elle déplace un député
+d'un groupe à l'autre. C'est exactement la dérive de rattachement décrite ci-dessous. **Conclusion :
+pour publier, prendre l'attribution par groupe de l'AN, pas la nôtre.** Notre agrégation reste
+utilisable pour la cohésion et la dispersion, pas pour attribuer un vote à un groupe.
+
+Trois limites trouvées :
 
 - **Groupe courant, pas groupe à la date du vote.** `deputes.json` ne porte que l'appartenance
-  actuelle. Correct pour juillet 2026, silencieusement faux au-delà d'un changement de groupe.
-  Correctif : historique des mandats de l'AN. En attendant, `as_of` et une marge d'incertitude.
+  actuelle ; l'AN affiche le groupe **au moment du vote**. Correct quand rien ne bouge, faux sinon.
+  Correctif : historique des mandats de l'AN. C'est la cause de l'écart ci-dessus.
 - **Les absents n'existent pas dans le fichier.** 562 enregistrements pour 577 sièges : les députés
   absents sont omis, pas marqués « contre ». Toute stance se calcule sur les votants
   (`pour + contre + abstention`), le non-votant ne compte pas comme opposition.
+- **Vocabulaire de groupe instable.** Le même groupe s'écrit `UDDPLR` sur la page scrutin de l'AN et
+  `UDR` dans le compte rendu ; `ECOS` / `EcoS`, `DEM` / `Dem`. Toute jointure doit normaliser.
 
 Dispersion observée (19/07/2026) — la preuve que le critère §6.2 discrimine :
 
@@ -220,9 +248,25 @@ Dispersion observée (19/07/2026) — la preuve que le critère §6.2 discrimine
 | ECOS | 0 | 38 | 0 | contre |
 | GDR | 0 | 15 | 0 | contre |
 
-Seuil de déduction : ≥ 80 % des votants d'un côté ⇒ stance franche, sinon `mitige`.
-Sur l'aide à mourir, EPR (63/18) et HOR (17/18) sont à l'inverse scindés : `mitige` n'est pas
-décoratif, c'est le cas normal.
+Seuil de déduction : ≥ 80 % des votants d'un côté ⇒ stance franche, sinon `mitige`. Ce seuil est
+**notre convention**, pas une norme : d'autres sites utilisent la majorité simple (LIOT serait alors
+« abstention », HOR « pour »). À publier comme convention, sinon c'est un levier invisible.
+
+### 6.6 Sourcer les justifications : le compte rendu
+
+`pipeline/extract-explications.mjs` prend l'URL d'un compte rendu de séance et en extrait
+l'intervention de chaque groupe, étiquetée par groupe grâce au « sommaire détaillé ». Un seul
+document couvre donc les douze groupes.
+
+Rendement mesuré sur le scrutin n° 8427 (séance du 20/07/2026) : **11 groupes sur 12** avec une
+position citable, 1 intervention substantielle mais sans phrase de position explicite (EcoS, qui
+argumente sans annoncer son vote), et `NI` sans orateur de groupe par construction. Les 11 positions
+du contenu viennent de cette extraction, citeées verbatim.
+
+Deux défauts corrigés au passage, à connaître pour la suite : un orateur est coupé plusieurs fois par
+le marqueur de pagination (il faut recoller les fragments), et le sommaire écrit tantôt
+« M. Éric Martineau (Dem) », tantôt le nom seul — une normalisation est nécessaire avant
+rapprochement, sinon l'orateur est silencieusement perdu.
 
 ## 7. Architecture
 
@@ -273,9 +317,10 @@ content/
   parties.json  sources.json  taxonomy.json
   questions/
 pipeline/
-  fetch-snapshot.mjs     # télécharge et épingle l'instantané par SHA-256
-  group-votes.mjs        # agrège les votes par groupe pour un scrutin
-  validate-content.mjs   # porte bloquante (§6.3)
+  fetch-snapshot.mjs        # télécharge et épingle l'instantané par SHA-256
+  group-votes.mjs           # agrège les votes par groupe pour un scrutin
+  extract-explications.mjs  # extrait du compte rendu l'intervention de chaque groupe
+  validate-content.mjs      # porte bloquante (§6.3)
 .cache/                  # données brutes téléchargées, non versionnées
 src/                     # Svelte
 docs/  PLAN.md  METHODOLOGY.md
@@ -288,7 +333,8 @@ docs/  PLAN.md  METHODOLOGY.md
 | M0 | Plan + nom | fait |
 | M1a | Preuve de la chaîne de données | **fait** — §6.5, totaux concordants |
 | M1b | Pipeline versionné + 1 question réelle (faits) | `npm run validate` échoue sur `justification: null` |
-| M1c | 5 justifications sourcées, bout en bout | chaque phrase se résout vers une déclaration ou un vote |
+| M1c | Justifications sourcées pour 1 question | **fait** — 11/12 groupes, verbatim du compte rendu |
+| M1d | 5 questions bout en bout | chaque phrase se résout vers un scrutin ou un compte rendu |
 | M2 | App Svelte : parcours, résultat, localStorage, build statique | 5 questions jouables hors ligne, résultat exportable |
 | M3 | ~40 questions, équilibre thématique, `METHODOLOGY.md`, a11y | porte verte, quota tenu |
 | M4 | Publication, droit de réponse, suivi | — |
@@ -300,12 +346,15 @@ avant.
 
 **Décidé :** nom Hemicycle ; France ; positions hybrides ; unité = groupe parlementaire ; résultat =
 convergences nominatives sans pourcentage arbitraire ; statique sans backend ; Svelte + Vite ;
-droit de réponse + journal de corrections.
+droit de réponse + journal de corrections ; **l'arbitre d'un litige factuel est le porteur du projet
+(décision assumée, maillon faible connu)** ; la position déclarée prime sur le vote ; seuil de
+cohésion à 80 % comme convention publiée.
 
 **Ouvert :**
 
 - Nombre de questions cible (~30 jouable, ~40 pour couvrir les thèmes).
-- **Qui tranche un litige factuel** (§6.4). Maillon faible.
+- Faut-il stocker la position **déclarée** ou la position **votée** comme `stance` principale quand
+  les deux divergent (EPR) ? Tranché en faveur du déclaré, à confirmer à l'usage.
 - Langue : FR seul, ou FR/EN d'emblée ?
 
 ## 14. Références

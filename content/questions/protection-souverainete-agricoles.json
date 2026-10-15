@@ -2,28 +2,36 @@
   "id": "protection-souverainete-agricoles",
   "country": "fr",
   "themes": ["agriculture"],
-  "version": "0.0.0-draft",
-  "as_of": "2026-07-19",
-  "situation": "L'Assemblée nationale a adopté, le 19 juillet 2026, l'ensemble du projet de loi d'urgence pour la protection et la souveraineté agricoles : 296 voix pour, 224 contre, 41 abstentions.",
-  "situation_status": "provisoire_non_source",
+  "version": "1.0.0",
+  "as_of": "2026-07-20",
+  "situation": "En juillet 2026, l’Assemblée nationale a adopté définitivement le projet de loi d’urgence pour la protection et la souveraineté agricoles. Le texte facilite le stockage de l’eau pour l’irrigation, encadre la lutte contre la prédation du loup, allège les recours contre les autorisations environnementales, et ouvre par dérogation la réutilisation de deux insecticides interdits en France depuis 2020, l’acétamipride et le flupyradifurone. Adopté par 296 voix contre 224, il a été partiellement censuré par le Conseil constitutionnel puis promulgué le 18 août 2026.",
+  "situation_status": "source",
   "texte": {
     "type": "projet_de_loi",
-    "titre": "projet de loi d'urgence pour la protection et la souveraineté agricoles",
+    "titre": "projet de loi d’urgence pour la protection et la souveraineté agricoles",
     "dossier_legislatif": null,
     "scrutin": {
       "chambre": "an",
       "id": "VTANR5L17V8427",
-      "date": "2026-07-19",
+      "date": "2026-07-20",
       "sort": "adopté"
     },
-    "etat": "adopte"
+    "etat": "promulgue",
+    "promulgation": {
+      "loi": "2026-796",
+      "date": "2026-08-18",
+      "decision_cc": "2026-914 DC"
+    }
   },
+  "justification_context": "discussion de la motion de rejet préalable, séance du 20 juillet 2026 — un orateur par groupe",
   "positions": [
     {
       "group": "DEM",
-      "stance": "mitige",
-      "stance_basis": "scrutin_derived",
-      "justification": null,
+      "stance": "pour",
+      "stance_basis": "sourced",
+      "justification": "Nous voterons contre la motion de rejet.",
+      "speaker": "Éric Martineau",
+      "source_ref": "cr-2026-07-20",
       "evidence": [
         { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8427", "pour": 19, "contre": 11, "abstention": 6, "nonvotant": 0 }
       ]
@@ -31,8 +39,10 @@
     {
       "group": "DR",
       "stance": "pour",
-      "stance_basis": "scrutin_derived",
-      "justification": null,
+      "stance_basis": "sourced",
+      "justification": "Notre groupe s’opposera à cette motion de rejet.",
+      "speaker": "Vincent Descoeur",
+      "source_ref": "cr-2026-07-20",
       "evidence": [
         { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8427", "pour": 48, "contre": 0, "abstention": 0, "nonvotant": 0 }
       ]
@@ -40,17 +50,21 @@
     {
       "group": "ECOS",
       "stance": "contre",
-      "stance_basis": "scrutin_derived",
-      "justification": null,
+      "stance_basis": "sourced",
+      "justification": "Ce qui menace la souveraineté alimentaire, c’est le dérèglement climatique et l’effondrement de la biodiversité ; or ce texte ne fait que les accélérer.",
+      "speaker": "Benoît Biteau",
+      "source_ref": "cr-2026-07-20",
       "evidence": [
         { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8427", "pour": 0, "contre": 38, "abstention": 0, "nonvotant": 0 }
       ]
     },
     {
       "group": "EPR",
-      "stance": "mitige",
-      "stance_basis": "scrutin_derived",
-      "justification": null,
+      "stance": "pour",
+      "stance_basis": "sourced",
+      "justification": "Nous ne la voterons pas, non parce que ce texte serait parfait, il ne l’est pas.",
+      "speaker": "Nathalie Coggia",
+      "source_ref": "cr-2026-07-20",
       "evidence": [
         { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8427", "pour": 50, "contre": 15, "abstention": 16, "nonvotant": 1 }
       ]
@@ -58,17 +72,21 @@
     {
       "group": "GDR",
       "stance": "contre",
-      "stance_basis": "scrutin_derived",
-      "justification": null,
+      "stance_basis": "sourced",
+      "justification": "Les députés communistes et du groupe de la Gauche démocrate et républicaine voteront donc résolument contre les conclusions de la commission mixte paritaire.",
+      "speaker": "Julien Brugerolles",
+      "source_ref": "cr-2026-07-20",
       "evidence": [
         { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8427", "pour": 0, "contre": 15, "abstention": 0, "nonvotant": 0 }
       ]
     },
     {
       "group": "HOR",
-      "stance": "mitige",
-      "stance_basis": "scrutin_derived",
-      "justification": null,
+      "stance": "pour",
+      "stance_basis": "sourced",
+      "justification": "Le groupe Horizons & indépendants votera majoritairement pour le projet de loi, et j’en suis heureux.",
+      "speaker": "François Jolivet",
+      "source_ref": "cr-2026-07-20",
       "evidence": [
         { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8427", "pour": 25, "contre": 3, "abstention": 4, "nonvotant": 0 }
       ]
@@ -76,8 +94,10 @@
     {
       "group": "LFI-NFP",
       "stance": "contre",
-      "stance_basis": "scrutin_derived",
-      "justification": null,
+      "stance_basis": "sourced",
+      "justification": "Parce que ce texte ne règle aucune urgence et parce qu’il oppose agriculture et environnement, nous voterons pour la motion de rejet.",
+      "speaker": "Mathilde Hignet",
+      "source_ref": "cr-2026-07-20",
       "evidence": [
         { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8427", "pour": 0, "contre": 71, "abstention": 0, "nonvotant": 0 }
       ]
@@ -85,8 +105,10 @@
     {
       "group": "LIOT",
       "stance": "mitige",
-      "stance_basis": "scrutin_derived",
-      "justification": null,
+      "stance_basis": "sourced",
+      "justification": "les députés du groupe Libertés, indépendants, outre-mer et territoires se répartiront entre le vote contre, l’abstention et certains votes pour, en fonction de leurs convictions personnelles au sujet de l’article 2 quater.",
+      "speaker": "David Taupiac",
+      "source_ref": "cr-2026-07-20",
       "evidence": [
         { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8427", "pour": 8, "contre": 4, "abstention": 11, "nonvotant": 0 }
       ]
@@ -96,6 +118,9 @@
       "stance": "mitige",
       "stance_basis": "scrutin_derived",
       "justification": null,
+      "justification_exempt": "les députés non inscrits n’ont pas d’orateur de groupe : la position est individuelle par construction, aucune déclaration collective ne peut exister",
+      "speaker": null,
+      "source_ref": null,
       "evidence": [
         { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8427", "pour": 7, "contre": 2, "abstention": 2, "nonvotant": 0 }
       ]
@@ -103,8 +128,10 @@
     {
       "group": "RN",
       "stance": "pour",
-      "stance_basis": "scrutin_derived",
-      "justification": null,
+      "stance_basis": "sourced",
+      "justification": "Ce soir, nous rejetterons avec fermeté cette motion de rejet irresponsable, pour nos campagnes, pour nos agriculteurs, pour notre territoire et, surtout, pour l’avenir de la France.",
+      "speaker": "David Magnier",
+      "source_ref": "cr-2026-07-20",
       "evidence": [
         { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8427", "pour": 122, "contre": 0, "abstention": 0, "nonvotant": 0 }
       ]
@@ -112,8 +139,10 @@
     {
       "group": "SOC",
       "stance": "contre",
-      "stance_basis": "scrutin_derived",
-      "justification": null,
+      "stance_basis": "sourced",
+      "justification": "C’est pourquoi le groupe Socialistes et apparentés votera cette motion de rejet préalable.",
+      "speaker": "Fabrice Barusseau",
+      "source_ref": "cr-2026-07-20",
       "evidence": [
         { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8427", "pour": 0, "contre": 65, "abstention": 2, "nonvotant": 0 }
       ]
@@ -121,13 +150,22 @@
     {
       "group": "UDDPLR",
       "stance": "pour",
-      "stance_basis": "scrutin_derived",
-      "justification": null,
+      "stance_basis": "sourced",
+      "justification": "Collègues de gauche, votre motion de rejet affirme ce que vous êtes en matière agricole : le parti du rejet.",
+      "speaker": "Maxime Michelet",
+      "source_ref": "cr-2026-07-20",
       "evidence": [
         { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8427", "pour": 17, "contre": 0, "abstention": 0, "nonvotant": 0 }
       ]
     }
   ],
-  "sources": [{ "id": "np-opendata" }],
+  "sources": [
+    { "id": "np-opendata" },
+    { "id": "an-scrutin-8427" },
+    { "id": "cr-2026-07-20" },
+    { "id": "legifrance-2026-796" },
+    { "id": "cc-2026-914-dc" },
+    { "id": "senat-loi-en-clair" }
+  ],
   "revisions": []
 }

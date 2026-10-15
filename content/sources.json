@@ -4,6 +4,7 @@
     "kind": "officiel",
     "title": "NosParlementaires — données ouvertes (dérivées de l'Assemblée nationale et du Sénat)",
     "url": "https://nosparlementaires.fr/donnees-ouvertes",
+    "date": "2026-10-15",
     "licence": "Licence Ouverte 2.0 (Etalab)",
     "archive_url": null
   },
@@ -12,6 +13,52 @@
     "kind": "officiel",
     "title": "Assemblée nationale — portail open data",
     "url": "https://data.assemblee-nationale.fr",
+    "date": "2026-10-15",
+    "licence": "Licence Ouverte 2.0 (Etalab)",
+    "archive_url": null
+  },
+  {
+    "id": "cr-2026-07-20",
+    "kind": "officiel",
+    "title": "Compte rendu de la deuxième séance du lundi 20 juillet 2026",
+    "url": "https://www.assemblee-nationale.fr/dyn/17/comptes-rendus/seance/CRSANR5L17S2026E1N022",
+    "date": "2026-07-20",
+    "licence": "Document parlementaire public — citation courte",
+    "archive_url": null
+  },
+  {
+    "id": "an-scrutin-8427",
+    "kind": "officiel",
+    "title": "Assemblée nationale — analyse du scrutin public n° 8427",
+    "url": "https://www.assemblee-nationale.fr/dyn/17/scrutins/8427",
+    "date": "2026-07-20",
+    "licence": "Licence Ouverte 2.0 (Etalab)",
+    "archive_url": null
+  },
+  {
+    "id": "legifrance-2026-796",
+    "kind": "officiel",
+    "title": "LOI n° 2026-796 du 18 août 2026 d'urgence pour la protection et la souveraineté agricoles",
+    "url": "https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000054707007",
+    "date": "2026-08-18",
+    "licence": "Licence Ouverte 2.0 (Etalab)",
+    "archive_url": null
+  },
+  {
+    "id": "cc-2026-914-dc",
+    "kind": "officiel",
+    "title": "Conseil constitutionnel — décision n° 2026-914 DC du 14 août 2026",
+    "url": "https://www.conseil-constitutionnel.fr/decision/2026/2026914DC.htm",
+    "date": "2026-08-14",
+    "licence": "Licence Ouverte 2.0 (Etalab)",
+    "archive_url": null
+  },
+  {
+    "id": "senat-loi-en-clair",
+    "kind": "officiel",
+    "title": "Sénat — la loi en clair : protection et souveraineté agricoles",
+    "url": "https://www.senat.fr/travaux-parlementaires/textes-legislatifs/la-loi-en-clair/urgence-agricole.html",
+    "date": "2026-08-18",
     "licence": "Licence Ouverte 2.0 (Etalab)",
     "archive_url": null
   }

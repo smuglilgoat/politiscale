@@ -1,0 +1,18 @@
+[
+  {
+    "id": "np-opendata",
+    "kind": "officiel",
+    "title": "NosParlementaires — données ouvertes (dérivées de l'Assemblée nationale et du Sénat)",
+    "url": "https://nosparlementaires.fr/donnees-ouvertes",
+    "licence": "Licence Ouverte 2.0 (Etalab)",
+    "archive_url": null
+  },
+  {
+    "id": "an-opendata",
+    "kind": "officiel",
+    "title": "Assemblée nationale — portail open data",
+    "url": "https://data.assemblee-nationale.fr",
+    "licence": "Licence Ouverte 2.0 (Etalab)",
+    "archive_url": null
+  }
+]

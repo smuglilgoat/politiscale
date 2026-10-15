@@ -1,0 +1,14 @@
+[
+  { "slug": "RN", "label": "Rassemblement National", "programme_url": null },
+  { "slug": "EPR", "label": "Ensemble pour la République", "programme_url": null },
+  { "slug": "LFI-NFP", "label": "La France insoumise - Nouveau Front Populaire", "programme_url": null },
+  { "slug": "SOC", "label": "Socialistes et apparentés", "programme_url": null },
+  { "slug": "DR", "label": "Droite Républicaine", "programme_url": null },
+  { "slug": "ECOS", "label": "Écologiste et Social", "programme_url": null },
+  { "slug": "DEM", "label": "Les Démocrates", "programme_url": null },
+  { "slug": "HOR", "label": "Horizons & Indépendants", "programme_url": null },
+  { "slug": "LIOT", "label": "Libertés, Indépendants, Outre-mer et Territoires", "programme_url": null },
+  { "slug": "GDR", "label": "Gauche Démocrate et Républicaine", "programme_url": null },
+  { "slug": "UDDPLR", "label": "Union des droites pour la République", "programme_url": null },
+  { "slug": "NI", "label": "Députés non inscrits", "programme_url": null }
+]

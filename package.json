@@ -1,0 +1,10 @@
+{
+  "name": "hemicycle",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "snapshot": "node pipeline/fetch-snapshot.mjs",
+    "group-votes": "node pipeline/group-votes.mjs",
+    "validate": "node pipeline/validate-content.mjs"
+  }
+}

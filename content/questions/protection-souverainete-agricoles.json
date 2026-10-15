@@ -1,0 +1,133 @@
+{
+  "id": "protection-souverainete-agricoles",
+  "country": "fr",
+  "themes": ["agriculture"],
+  "version": "0.0.0-draft",
+  "as_of": "2026-07-19",
+  "situation": "L'Assemblée nationale a adopté, le 19 juillet 2026, l'ensemble du projet de loi d'urgence pour la protection et la souveraineté agricoles : 296 voix pour, 224 contre, 41 abstentions.",
+  "situation_status": "provisoire_non_source",
+  "texte": {
+    "type": "projet_de_loi",
+    "titre": "projet de loi d'urgence pour la protection et la souveraineté agricoles",
+    "dossier_legislatif": null,
+    "scrutin": {
+      "chambre": "an",
+      "id": "VTANR5L17V8427",
+      "date": "2026-07-19",
+      "sort": "adopté"
+    },
+    "etat": "adopte"
+  },
+  "positions": [
+    {
+      "group": "DEM",
+      "stance": "mitige",
+      "stance_basis": "scrutin_derived",
+      "justification": null,
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8427", "pour": 19, "contre": 11, "abstention": 6, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "DR",
+      "stance": "pour",
+      "stance_basis": "scrutin_derived",
+      "justification": null,
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8427", "pour": 48, "contre": 0, "abstention": 0, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "ECOS",
+      "stance": "contre",
+      "stance_basis": "scrutin_derived",
+      "justification": null,
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8427", "pour": 0, "contre": 38, "abstention": 0, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "EPR",
+      "stance": "mitige",
+      "stance_basis": "scrutin_derived",
+      "justification": null,
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8427", "pour": 50, "contre": 15, "abstention": 16, "nonvotant": 1 }
+      ]
+    },
+    {
+      "group": "GDR",
+      "stance": "contre",
+      "stance_basis": "scrutin_derived",
+      "justification": null,
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8427", "pour": 0, "contre": 15, "abstention": 0, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "HOR",
+      "stance": "mitige",
+      "stance_basis": "scrutin_derived",
+      "justification": null,
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8427", "pour": 25, "contre": 3, "abstention": 4, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "LFI-NFP",
+      "stance": "contre",
+      "stance_basis": "scrutin_derived",
+      "justification": null,
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8427", "pour": 0, "contre": 71, "abstention": 0, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "LIOT",
+      "stance": "mitige",
+      "stance_basis": "scrutin_derived",
+      "justification": null,
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8427", "pour": 8, "contre": 4, "abstention": 11, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "NI",
+      "stance": "mitige",
+      "stance_basis": "scrutin_derived",
+      "justification": null,
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8427", "pour": 7, "contre": 2, "abstention": 2, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "RN",
+      "stance": "pour",
+      "stance_basis": "scrutin_derived",
+      "justification": null,
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8427", "pour": 122, "contre": 0, "abstention": 0, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "SOC",
+      "stance": "contre",
+      "stance_basis": "scrutin_derived",
+      "justification": null,
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8427", "pour": 0, "contre": 65, "abstention": 2, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "UDDPLR",
+      "stance": "pour",
+      "stance_basis": "scrutin_derived",
+      "justification": null,
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8427", "pour": 17, "contre": 0, "abstention": 0, "nonvotant": 0 }
+      ]
+    }
+  ],
+  "sources": [{ "id": "np-opendata" }],
+  "revisions": []
+}

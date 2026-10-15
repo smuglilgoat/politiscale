@@ -46,6 +46,24 @@ for (const file of files) {
     err(w, `situation_status="${q.situation_status}" : contexte non sourcé, non publiable`);
   }
 
+  // Ancrage : une position porte sur une étape, pas sur un texte en général.
+  if (!q.ancrage?.etape) {
+    err(w, "ancrage.etape manquant : on ne sait pas sur quelle étape la position est prise");
+  }
+  if (q.ancrage?.scrutin && q.texte?.scrutin?.id && q.ancrage.scrutin !== q.texte.scrutin.id) {
+    err(w, `ancrage.scrutin (${q.ancrage.scrutin}) ≠ texte.scrutin.id (${q.texte.scrutin.id})`);
+  }
+  if (!Array.isArray(q.navette) || q.navette.length === 0) err(w, "navette manquante ou vide");
+  for (const [i, st] of (q.navette || []).entries()) {
+    const sw = `${w} navette[${i}]`;
+    if (!st.etape) err(sw, "etape manquante");
+    if (!st.date) err(sw, "date manquante");
+    if (st.source_ref && !sourceById.has(st.source_ref)) err(sw, `source_ref inconnue : ${st.source_ref}`);
+  }
+  if (q.ancrage?.scrutin && !(q.navette || []).some((st) => st.scrutin === q.ancrage.scrutin)) {
+    err(w, "scrutin d'ancrage absent de la navette : la position n'est rattachée à aucune étape");
+  }
+
   const seen = new Set();
   for (const [i, p] of (q.positions || []).entries()) {
     const pw = `${w} position[${i}] (${p.group ?? "sans groupe"})`;

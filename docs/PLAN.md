@@ -44,16 +44,18 @@ principal n'est pas un pourcentage.
 
 Deux niveaux, et ils ne sont pas interchangeables :
 
-- **`party`** — entité canonique, indépendante de la chambre. C'est ce que voit l'utilisateur, parce
-  que les deux chambres n'ont pas le même vocabulaire : le Rassemblement national s'appelle `RN` à
-  l'Assemblée et `UNT` au Sénat ; Les Républicains `DR` à l'Assemblée et `Les Républicains` au Sénat ;
-  les socialistes `SOC` / `SER` ; les écologistes `ECOS` / `GEST` ; les communistes `GDR` / `CRCE-K` ;
-  Renaissance `EPR` / `RDPI`. Mapper à la main, chambre par chambre, dans `parties.json`.
+- **`party`** — entité canonique, indépendante de la chambre et de la législature. C'est ce que voit
+  l'utilisateur. Les groupes parlementaires, eux, se renomment, fusionnent et changent d'étiquette.
 - **`group`** — l'étiquette de la chambre au moment du vote. C'est **le seul niveau prouvable**,
   parce que c'est celui sous lequel les votes sont enregistrés.
 
-Un parti peut donc avoir `groups: { an: "RN", senat: "UNT" }`. Cela supprime l'ambiguïté
-« le parti dit X, son groupe vote Y » : le parti porte la position, le groupe porte la preuve.
+Un parti peut donc porter `groups: { an: "RN" }`. Cela supprime l'ambiguïté « le parti dit X, son
+groupe vote Y » : le parti porte la position, le groupe porte la preuve.
+
+> **Sénat : reporté.** Le Sénat a des groupes au vocabulaire disjoint de l'Assemblée (`UNT` pour le
+> RN, `SER`, `GEST`, `CRCE-K`, `RDPI`…) et sa composition a changé en septembre 2026. Le modèle est
+> prévu pour (`groups: { an, senat }`) mais rien n'est implémenté côté Sénat. Y revenir plus tard, en
+> écrivant le mapping depuis une source, pas de mémoire.
 
 Le **gouvernement** est un acteur distinct (`kind: "gouvernement"`), pas un parti : il n'a pas de
 groupe et ne se mesure pas comme les autres. Sa position compte pour les projets de loi — portée par
@@ -138,30 +140,36 @@ une liste ordonnée d'étapes, chacune avec sa chambre, son type, son scrutin et
 
 ```jsonc
 "navette": [
-  { "etape": "depot",              "chambre": null,     "date": "2026-04-08", "source_ref": "an-dossier" },
-  { "etape": "1re_lecture",        "chambre": "an",     "date": "2026-05-22", "scrutin": "VTANR5L17V…" },
-  { "etape": "1re_lecture",        "chambre": "senat",  "date": "2026-07-02", "scrutin": "2025-327",
-    "source_ref": "cr-senat-…" },
-  { "etape": "cmp",                "chambre": null,     "date": "2026-07-16", "source_ref": "cr-cmp-…" },
-  { "etape": "lecture_definitive", "chambre": "an",     "date": "2026-07-20", "scrutin": "VTANR5L17V8427" },
-  { "etape": "promulgation",       "chambre": null,     "date": "2026-08-18", "source_ref": "legifrance-2026-796" }
+  { "etape": "depot",                      "chambre": null,    "date": "2026-04-08" },
+  { "etape": "ensemble_1re_lecture",       "chambre": "an",    "date": "2026-06-02", "scrutin": "VTANR5L17V7259", "vote": { "pour": 369, "contre": 178, "abstention": 15 } },
+  { "etape": "ensemble_1re_lecture",       "chambre": "senat", "date": "2026-07-02", "vote": { "pour": 219, "contre": 111 } },
+  { "etape": "commission_mixte_paritaire", "chambre": null,    "date": "2026-07-16" },
+  { "etape": "lecture_an_texte_cmp",       "chambre": "an",    "date": "2026-07-20", "scrutin": "VTANR5L17V8427", "vote": { "pour": 296, "contre": 224, "abstention": 41 } },
+  { "etape": "promulgation",               "chambre": null,    "date": "2026-08-18", "source_ref": "legifrance-2026-796" }
 ]
 ```
 
-Trois conséquences, toutes vérifiées sur données réelles :
+**Pourquoi la navette n'est pas un luxe.** Entre les deux votes « ensemble » du même texte à la
+même assemblée, 73 députés changent de camp : 369 pour au texte initial, 296 sur le texte de la CMP.
+La marge passe de 0,34 à 0,13. Une `stance` unique par parti serait donc **fausse** pour tous ceux
+qui ont bougé. La position se prend à une étape nommée.
 
-- **Le scrutin de la CMP existe.** La CMP siège à huis clos, mais un **compte rendu écrit** est publié
-  (Sénat, `compte-rendu-commissions/<semaine>/cmp.html`) et il enregistre les votes article par
-  article : « la commission mixte paritaire adopte l'article N dans la rédaction de… ». Le huis clos
-  interdit la diffusion, pas le compte rendu.
-- **Les comptes rendus de commission existent aussi** (`senat.fr/compte-rendu-commissions/`), donc
-  l'étape où les amendements se décident vraiment est documentée.
+Quatre constats, vérifiés sur données réelles :
+
+- **La CMP ne produit pas de vote par groupe.** Elle siège à huis clos et ses 14 membres votent à
+  titre individuel : il n'existe pas de « position du groupe LIOT en CMP ». La CMP est un excellent
+  **contexte** (ce que le compromis a changé) mais **ne peut pas être l'étape d'ancrage** d'une
+  position de parti.
+- **Le compte rendu de la CMP existe quand même.** Un compte rendu **écrit** est publié
+  (`senat.fr/compte-rendu-commissions/<semaine>/cmp.html`) et enregistre les décisions article par
+  article. Le huis clos interdit la diffusion, pas l'enregistrement.
+- **Les comptes rendus de commission existent aussi**, donc l'étape où les amendements se décident
+  vraiment est documentée.
 - **Les niches parlementaires n'ont souvent pas de vote final.** Une journée d'initiative
-  parlementaire va de 9 h à minuit et les textes en fin d'ordre du jour ne sont pas examinés
-  (« peu de chances d'être étudiée »). Un texte de niche peut donc avoir des scrutins d'article et
-  **aucun** vote sur l'ensemble — et ses articles peuvent être supprimés en commission avant la
-  séance. Le scrutin de fin d'étape est donc **facultatif** : la porte exige une preuve, pas
-  nécessairement un vote final.
+  parlementaire va de 9 h à minuit et les textes en fin d'ordre du jour ne sont pas examinés. Un
+  texte de niche peut avoir des scrutins d'article et **aucun** vote sur l'ensemble — et ses articles
+  peuvent être supprimés en commission avant la séance. Le scrutin d'étape est donc **facultatif** :
+  la porte exige une preuve, pas nécessairement un vote.
 
 Ancrage de la position : la question est ancrée sur **une étape** (la décisive : vote final, ou vote
 sur le texte de la CMP), et les positions sont prises à cette étape. Les autres étapes restent
@@ -181,10 +189,25 @@ Les deux derniers sont distincts et gratuits.
 **la liste nominative des textes où vous divergez**, chacun cliquable vers le scrutin réel.
 L'utilisateur voit *sur quoi* il est d'accord, pas un pourcentage d'affinité sorti de nulle part.
 
-`concordance(U, G) = |{ q ∈ répondues : choix(U,q) = stance(G,q) }|`
+`concordance(U, P) = |{ q ∈ répondues : choix(U,q) = stance(P,q) }|`
+
+**La divergence interne compte, et elle est traitée explicitement.** La plupart des groupes votent
+en bloc, mais LIOT, DEM, HOR et EPR se scindent régulièrement — LIOT l'a même déclaré à la tribune.
+Faire comme si « LA position de LIOT » existait serait un mensonge par simplification. Donc :
+
+- une convergence n'est **ferme** que si le groupe était cohésif sur cette question ; sur un groupe
+  scindé, l'accord est compté à part, comme **accord partagé**, et listé séparément plutôt que de
+  gonfler le classement ;
+- `non_aborde` n'est ni un accord ni un désaccord : c'est un terrain neutre, jamais compté ;
+- la répartition brute (`pour / contre / abstention`) est affichée pour chaque groupe à chaque
+  question. L'utilisateur voit que sur ce texte LIOT s'est partagé 8/4/11. Il juge avec l'information.
+
+Coef. de cohésion = camp majoritaire / votants, recalculé depuis `evidence` (jamais stocké). C'est
+**notre** définition : d'autres sites utilisent la majorité simple ou l'indice de Rice, ce qui donne
+des chiffres différents. À publier, sinon c'est un réglage invisible qui déplace les résultats.
 
 Un ratio (`convergences / répondues`) peut être affiché en second, explicitement défini comme
-« proportion de vos réponses partagées par ce groupe » — un fait comptable, pas un score.
+« proportion de vos réponses partagées par ce parti » — un fait comptable, pas un score.
 
 ## 6. Chaîne éditoriale
 
@@ -194,8 +217,8 @@ Un ratio (`convergences / répondues`) peut être affiché en second, explicitem
 |---|---|---|
 | `nosparlementaires.fr` — `/opendata/*.json`, `/api/v1/*`, `/themes` | accès pratique, votes par groupe, **AN et Sénat**, taxonomie 30 thèmes | Licence Ouverte 2.0 |
 | `data.assemblee-nationale.fr` — Votes, Dossiers législatifs, mandats | autorité, et **historique des mandats** (§6.5) | Licence Ouverte 2.0 |
-| `data.senat.fr` — Travaux législatifs, Comptes rendus, Amendements | autorité côté Sénat | Licence Ouverte 2.0 |
-| `senat.fr/compte-rendu-commissions/` — comptes rendus de commission et de **CMP** | la seule trace écrite des votes en CMP et en commission | Licence Ouverte 2.0 |
+| `data.senat.fr` — Travaux législatifs, Comptes rendus, Amendements | autorité côté Sénat — **reporté** | Licence Ouverte 2.0 |
+| `senat.fr/compte-rendu-commissions/` — comptes rendus de commission et de **CMP** | contexte : la seule trace écrite des travaux en CMP et en commission | Licence Ouverte 2.0 |
 | Comptes rendus de séance AN | justifications verbatim (§6.6) | document parlementaire public |
 | Programmes / déclarations des partis | justifications, citations courtes | citation + lien |
 | Wikidata | faits structurés | CC0 |
@@ -408,11 +431,11 @@ cohésion à 80 % comme convention publiée.
 **Ouvert :**
 
 - Nombre de questions cible (~30 jouable, ~40 pour couvrir les thèmes).
-- **Étape d'ancrage** : quelle étape définit la `stance` affichée — vote final de l'Assemblée, vote
-  sur le texte de la CMP, ou les deux (une question par étape décisive) ? Tranché à « l'étape
-  décisive », à confirmer à l'usage.
-- **Le Sénat entre-t-il dans le test ?** Ses groupes n'ont pas les mêmes étiquettes que ceux de
-  l'Assemblée et sa composition a changé en septembre 2026. Mapping parti↔groupes à maintenir.
+- **Étape d'ancrage** : laquelle définit la `stance` affichée. Tranché pour l'agricole sur le vote du
+  texte de la CMP (20/07/2026) ; règle générale à écrire.
+- **Divergence interne** : un « accord partagé » avec un groupe scindé doit-il compter à moitié, pas
+  du tout, ou seulement être signalé ? Tranché pour « signalé à part », à confirmer.
+- Le Sénat entre-t-il un jour dans le test ? Mapping parti↔groupes à maintenir si oui (reporté).
 - Faut-il stocker la position **déclarée** ou la position **votée** comme `stance` principale quand
   les deux divergent (EPR) ? Tranché en faveur du déclaré, à confirmer.
 - Langue : FR seul, ou FR/EN d'emblée ?

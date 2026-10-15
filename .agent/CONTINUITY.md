@@ -24,6 +24,15 @@ Tags : `[USER]` `[CODE]` `[TOOL]` `[ASSUMPTION]`. Inconnu = `UNCONFIRMED`.
   restent du contexte. Sinon on écrase les changements de position entre lectures.
 - 2026-10-15T17:25Z `[CODE]` Le **gouvernement** est un acteur distinct (`kind: "gouvernement"`),
   pas un parti : sa position s'affiche en contexte, elle n'est pas une option de réponse.
+- 2026-10-15T17:50Z `[USER]` **Sénat reporté.** Le modèle le prévoit (`groups: {an, senat}`), rien
+  n'est implémenté côté Sénat.
+- 2026-10-15T17:50Z `[USER]` **La divergence interne des groupes doit être prise en compte.**
+  Tranché : un accord n'est « ferme » que sur un groupe cohésif ; sur un groupe scindé c'est un
+  « accord partagé », listé à part et non compté dans le classement. `non_aborde` n'est ni accord ni
+  désaccord. La répartition brute est affichée.
+- 2026-10-15T17:50Z `[USER]` Étape d'ancrage : la plus intéressante pour la question.
+- 2026-10-15T17:50Z `[CODE]` Pour l'agricole : ancrage sur **VTANR5L17V8427** (texte de la CMP,
+  séance du 20/07/2026) — étape décisive, la plus serrée, et la séance d'où viennent les citations.
 - 2026-10-15T17:25Z `[CODE]` Le scrutin de fin d'étape devient **facultatif** : une niche
   parlementaire s'arrête à minuit et les derniers textes ne sont pas votés du tout.
 - 2026-10-15T16:30Z `[CODE]` `justification` = **citation verbatim attribuée** (`speaker` +
@@ -36,6 +45,12 @@ Tags : `[USER]` `[CODE]` `[TOOL]` `[ASSUMPTION]`. Inconnu = `UNCONFIRMED`.
 
 ## [DISCOVERIES]
 
+- 2026-10-15T17:45Z `[TOOL]` **Preuve chiffrée du besoin de navette** : sur le même texte à la même
+  assemblée, l'ensemble passe de **369/178** (1re lecture, 02/06/2026) à **296/224** (texte CMP,
+  20/07/2026). **73 députés changent de camp**, marge 0,34 → 0,13. Une `stance` unique par parti
+  serait fausse pour tous ceux qui ont bougé.
+- 2026-10-15T17:45Z `[TOOL]` **Une CMP ne produit aucun vote par groupe** : 14 membres votent à titre
+  individuel. Il n'existe pas de « position du groupe X en CMP ». Contexte oui, ancrage non.
 - 2026-10-15T17:20Z `[TOOL]` **La CMP n'est pas opaque.** Huis clos, mais un compte rendu **écrit**
   est publié (`senat.fr/compte-rendu-commissions/<semaine>/cmp.html`) et enregistre les votes article
   par article. Vérifié : page accessible, ~25 k de texte, 12 mentions de rapporteurs.

@@ -23,6 +23,19 @@
       "decision_cc": "2026-914 DC"
     }
   },
+  "ancrage": {
+    "etape": "lecture_an_texte_cmp",
+    "scrutin": "VTANR5L17V8427",
+    "pourquoi": "étape décisive (dernier mot de l'Assemblée) et la plus serrée : 296/224 contre 369/178 en première lecture. C'est là que la dérogation pesticides devient définitive, et c'est la séance dont proviennent les justifications."
+  },
+  "navette": [
+    { "etape": "depot", "chambre": null, "date": "2026-04-08", "source_ref": "senat-loi-en-clair" },
+    { "etape": "ensemble_1re_lecture", "chambre": "an", "date": "2026-06-02", "scrutin": "VTANR5L17V7259", "vote": { "pour": 369, "contre": 178, "abstention": 15 } },
+    { "etape": "ensemble_1re_lecture", "chambre": "senat", "date": "2026-07-02", "vote": { "pour": 219, "contre": 111 } },
+    { "etape": "commission_mixte_paritaire", "chambre": null, "date": "2026-07-16", "note": "huis clos ; compte rendu écrit seul. Aucun vote par groupe : 14 membres votent à titre individuel." },
+    { "etape": "lecture_an_texte_cmp", "chambre": "an", "date": "2026-07-20", "scrutin": "VTANR5L17V8427", "vote": { "pour": 296, "contre": 224, "abstention": 41 } },
+    { "etape": "promulgation", "chambre": null, "date": "2026-08-18", "source_ref": "legifrance-2026-796" }
+  ],
   "justification_context": "discussion de la motion de rejet préalable, séance du 20 juillet 2026 — un orateur par groupe",
   "positions": [
     {
@@ -162,6 +175,7 @@
   "sources": [
     { "id": "np-opendata" },
     { "id": "an-scrutin-8427" },
+    { "id": "an-scrutin-7259" },
     { "id": "cr-2026-07-20" },
     { "id": "legifrance-2026-796" },
     { "id": "cc-2026-914-dc" },

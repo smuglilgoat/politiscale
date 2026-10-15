@@ -143,38 +143,34 @@ une liste ordonnée d'étapes, chacune avec sa chambre, son type, son scrutin et
   { "etape": "depot",                      "chambre": null,    "date": "2026-04-08" },
   { "etape": "ensemble_1re_lecture",       "chambre": "an",    "date": "2026-06-02", "scrutin": "VTANR5L17V7259", "vote": { "pour": 369, "contre": 178, "abstention": 15 } },
   { "etape": "ensemble_1re_lecture",       "chambre": "senat", "date": "2026-07-02", "vote": { "pour": 219, "contre": 111 } },
-  { "etape": "commission_mixte_paritaire", "chambre": null,    "date": "2026-07-16" },
-  { "etape": "lecture_an_texte_cmp",       "chambre": "an",    "date": "2026-07-20", "scrutin": "VTANR5L17V8427", "vote": { "pour": 296, "contre": 224, "abstention": 41 } },
+  { "etape": "lecture_definitive_an",      "chambre": "an",    "date": "2026-07-20", "scrutin": "VTANR5L17V8427", "vote": { "pour": 296, "contre": 224, "abstention": 41 } },
   { "etape": "promulgation",               "chambre": null,    "date": "2026-08-18", "source_ref": "legifrance-2026-796" }
 ]
 ```
 
 **Pourquoi la navette n'est pas un luxe.** Entre les deux votes « ensemble » du même texte à la
-même assemblée, 73 députés changent de camp : 369 pour au texte initial, 296 sur le texte de la CMP.
-La marge passe de 0,34 à 0,13. Une `stance` unique par parti serait donc **fausse** pour tous ceux
-qui ont bougé. La position se prend à une étape nommée.
+même assemblée, 73 députés changent de camp : 369 pour au texte initial, 296 au vote final. La marge
+passe de 0,34 à 0,13. Une `stance` unique par parti serait donc **fausse** pour tous ceux qui ont
+bougé. La position se prend à une étape nommée.
 
-Quatre constats, vérifiés sur données réelles :
+Trois constats, vérifiés sur données réelles :
 
-- **La CMP ne produit pas de vote par groupe.** Elle siège à huis clos et ses 14 membres votent à
-  titre individuel : il n'existe pas de « position du groupe LIOT en CMP ». La CMP est un excellent
-  **contexte** (ce que le compromis a changé) mais **ne peut pas être l'étape d'ancrage** d'une
-  position de parti.
-- **Le compte rendu de la CMP existe quand même.** Un compte rendu **écrit** est publié
-  (`senat.fr/compte-rendu-commissions/<semaine>/cmp.html`) et enregistre les décisions article par
-  article. Le huis clos interdit la diffusion, pas l'enregistrement.
-- **Les comptes rendus de commission existent aussi**, donc l'étape où les amendements se décident
-  vraiment est documentée.
+- **Les comptes rendus de commission existent** (`senat.fr/compte-rendu-commissions/`), donc l'étape
+  où les amendements se décident vraiment est documentée.
 - **Les niches parlementaires n'ont souvent pas de vote final.** Une journée d'initiative
   parlementaire va de 9 h à minuit et les textes en fin d'ordre du jour ne sont pas examinés. Un
   texte de niche peut avoir des scrutins d'article et **aucun** vote sur l'ensemble — et ses articles
   peuvent être supprimés en commission avant la séance. Le scrutin d'étape est donc **facultatif** :
   la porte exige une preuve, pas nécessairement un vote.
+- **La commission mixte paritaire est écartée du périmètre** (décision du 15/10/2026). Conséquence
+  assumée : la navette de l'agricole montre un **trou** entre la lecture au Sénat et le vote final de
+  l'Assemblée, alors que le texte voté était issu d'un compromis. Le trou est volontaire ; il n'est
+  pas une erreur de saisie.
 
-Ancrage de la position : la question est ancrée sur **une étape** (la décisive : vote final, ou vote
-sur le texte de la CMP), et les positions sont prises à cette étape. Les autres étapes restent
-consultables comme contexte. C'est le seul moyen d'avoir une `stance` par parti sans écraser les
-changements de position entre lectures — et il y en a.
+Ancrage de la position : la question est ancrée sur **une étape** (la décisive : le vote final), et
+les positions sont prises à cette étape. Les autres étapes restent consultables comme contexte.
+C'est le seul moyen d'avoir une `stance` par parti sans écraser les changements de position entre
+lectures — et il y en a.
 
 ## 5. Ce que voit l'utilisateur
 
@@ -218,7 +214,7 @@ Un ratio (`convergences / répondues`) peut être affiché en second, explicitem
 | `nosparlementaires.fr` — `/opendata/*.json`, `/api/v1/*`, `/themes` | accès pratique, votes par groupe, **AN et Sénat**, taxonomie 30 thèmes | Licence Ouverte 2.0 |
 | `data.assemblee-nationale.fr` — Votes, Dossiers législatifs, mandats | autorité, et **historique des mandats** (§6.5) | Licence Ouverte 2.0 |
 | `data.senat.fr` — Travaux législatifs, Comptes rendus, Amendements | autorité côté Sénat — **reporté** | Licence Ouverte 2.0 |
-| `senat.fr/compte-rendu-commissions/` — comptes rendus de commission et de **CMP** | contexte : la seule trace écrite des travaux en CMP et en commission | Licence Ouverte 2.0 |
+| `senat.fr/compte-rendu-commissions/` — comptes rendus de commission | interventions individuelles en commission, rattachées à leur parti | Licence Ouverte 2.0 |
 | Comptes rendus de séance AN | justifications verbatim (§6.6) | document parlementaire public |
 | Programmes / déclarations des partis | justifications, citations courtes | citation + lien |
 | Wikidata | faits structurés | CC0 |
@@ -346,14 +342,18 @@ le marqueur de pagination (il faut recoller les fragments), et le sommaire écri
 « M. Éric Martineau (Dem) », tantôt le nom seul — une normalisation est nécessaire avant
 rapprochement, sinon l'orateur est silencieusement perdu.
 
-### 6.7 Commissions et CMP : interventions individuelles rattachées à leur parti
+### 6.7 Commissions : interventions individuelles rattachées à leur parti
 
-`pipeline/extract-commission.mjs` traite les comptes rendus de commission et de **commission mixte
-paritaire**, et produit `content/debates/<id>.json` : chaque intervention individuelle, son orateur,
-et **son parti**, retrouvé dans les annuaires. Rendement mesuré sur la CMP du 16/07/2026 :
-**254 interventions, 254 rattachées, 0 orpheline**, plus 39 décisions de rédaction enregistrées.
+`pipeline/extract-commission.mjs` traite les comptes rendus de commission et produit
+`content/debates/<id>.json` : chaque intervention individuelle, son orateur, et **son parti**,
+retrouvé dans les annuaires.
 
-Trois pièges rencontrés, tous silencieux :
+**État réel : la chaîne est écrite et a tourné sur un compte rendu de commission mixte paritaire,
+avant que la CMP ne soit écartée du périmètre.** Aucune page de commission permanente n'a encore été
+traitée : le format est le même famille, mais **ce n'est pas vérifié**. À vérifier avant de compter
+sur cette brique.
+
+Ce que l'exercice a appris, et qui vaut pour toute page du Sénat :
 
 - **Le Sénat sert des entités HTML nommées** (`souverainet&eacute;`) là où l'Assemblée sert de
   l'UTF-8. Sans décodage, toute recherche d'un mot accentué échoue sans rien signaler : c'est
@@ -362,18 +362,13 @@ Trois pièges rencontrés, tous silencieux :
   point dans le nom, il enjambe la phrase précédente et fabrique des noms fantômes. Et si le role
   n'est pas contraint à un mot de fonction, il ramasse les « M. Dupont, rapporteur. » cités en
   passant.
-- **Une page hebdomadaire contient plusieurs CMP.** Il faut découper sur la bonne, et l'en-tête
+- **Une page hebdomadaire contient plusieurs séances.** Il faut découper sur la bonne, et l'en-tête
   apparaît deux fois (sommaire puis corps) : on retient la plage la plus longue.
 
-⚠️ **Une intervention de CMP n'est pas une position de groupe.** Les 14 membres y siègent à titre
+⚠️ **Une intervention en commission n'est pas une position de groupe.** Les membres y siègent à titre
 individuel. Ces propos sont donc recevables comme **preuve ou illustration** d'une position, jamais
 comme source d'une `stance` : celle-ci reste adossée au vote ou à une déclaration de groupe. Le
 fichier porte la mention en clair.
-
-⚠️ **Le mapping Sénat ↔ Assemblée n'est pas inventé.** La CMP mêle des groupes de l'Assemblée
-(`DEM`, `EPR`, `DR`, `LIOT`, `ECOS`, `RN`…) et des groupes du Sénat (`Les Républicains`, `SER`,
-`UCI`, `RDSE`) qui n'ont pas d'équivalent automatique. La porte les accepte mais **les liste comme
-non mappés** — à établir depuis une source le jour où le Sénat entre dans le test.
 
 ## 7. Architecture
 
@@ -423,12 +418,12 @@ est une action séparée ; `git` ne peut pas renommer un dépôt distant (API Gi
 content/
   parties.json  sources.json  taxonomy.json
   questions/
-  debates/                  # généré : interventions de commission/CMP, rattachées à un parti
+  debates/                  # généré : interventions de commission, rattachées à un parti
 pipeline/
   fetch-snapshot.mjs        # télécharge et épingle l'instantané par SHA-256
   group-votes.mjs           # agrège les votes par groupe pour un scrutin
   extract-explications.mjs  # extrait du compte rendu l'intervention de chaque groupe
-  extract-commission.mjs    # extrait des comptes rendus de commission/CMP, une entrée par orateur
+  extract-commission.mjs    # extrait des comptes rendus de commission, une entrée par orateur
   validate-content.mjs      # porte bloquante (§6.3)
 .cache/                  # données brutes téléchargées, non versionnées
 src/                     # Svelte
@@ -462,8 +457,14 @@ cohésion à 80 % comme convention publiée.
 **Ouvert :**
 
 - Nombre de questions cible (~30 jouable, ~40 pour couvrir les thèmes).
-- **Étape d'ancrage** : laquelle définit la `stance` affichée. Tranché pour l'agricole sur le vote du
-  texte de la CMP (20/07/2026) ; règle générale à écrire.
+- **Étape d'ancrage** : laquelle définit la `stance` affichée. Tranché pour l'agricole sur le vote
+  final de l'Assemblée (20/07/2026) ; règle générale à écrire.
+- **Extraction en commission non vérifiée** : `extract-commission.mjs` a tourné sur un compte rendu
+  de commission mixte paritaire, écartée depuis. Aucune commission permanente traitée à ce jour —
+  à vérifier avant de compter sur cette brique (§6.7).
+- **Trou assumé dans la navette** : la CMP étant écartée du périmètre, la navette de l'agricole passe
+  directement de la lecture au Sénat au vote final, alors que le texte voté était un compromis.
+  Faut-il le dire à l'utilisateur, et comment ?
 - **Divergence interne** : un « accord partagé » avec un groupe scindé doit-il compter à moitié, pas
   du tout, ou seulement être signalé ? Tranché pour « signalé à part », à confirmer.
 - Le Sénat entre-t-il un jour dans le test ? Mapping parti↔groupes à maintenir si oui (reporté).

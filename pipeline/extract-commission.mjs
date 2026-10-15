@@ -1,7 +1,7 @@
-// Extrait d'un compte rendu de commission ou de commission mixte paritaire (CMP) les interventions
-// individuelles, chacune rattachée au parti de son orateur.
+// Extrait d'un compte rendu de commission les interventions individuelles, chacune rattachée au
+// parti de son orateur.
 //
-// Usage : node pipeline/extract-commission.mjs <url> [--section "motif de la CMP"]
+// Usage : node pipeline/extract-commission.mjs <url> [--section "sous-section"] --source <ref> --date <ISO>
 //
 // Deux différences avec les comptes rendus de séance de l'Assemblée, qui interdisent de réutiliser
 // tel quel l'extracteur de séance :
@@ -10,9 +10,8 @@
 //   2. Le format de tour de parole n'est pas un marqueur mais « Nom, role. - texte », et la
 //      répartition en groupes n'est pas donnée : il faut la retrouver dans les annuaires.
 //
-// Attention : dans une CMP, les 14 membres siègent **à titre individuel**. Une intervention
-// rattachée à un parti est la position d'une personne de ce parti, pas la position officielle du
-// groupe. À ne pas confondre avec une déclaration de groupe.
+// Attention : en commission, les membres siègent **à titre individuel**. Une intervention rattachée à
+// un parti est la position d'une personne de ce parti, pas la position officielle du groupe.
 import { readFile, mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 
@@ -44,8 +43,9 @@ const toText = (html) =>
 const ROLE = "sénateur|sénatrice|député|députée|rapporteur|rapporteuse|président|présidente|ministre|secrétaire";
 const TOUR = new RegExp(`(?:M\\.|Mme|MM\\.|Mmes)\\s+([^,.]{2,60}?)\\s*,\\s*([^.]{2,90}?)\\s*\\.\\s*[-–—]\\s*`, "gu");
 const HEAD = /Commission mixte paritaire chargée de proposer un texte sur les dispositions restant en discussion/gi;
-// Les CMP ne votent pas « l'article N » : elles adoptent ou rejettent des propositions de rédaction.
-const DECISION = /(proposition commune de rédaction des rapporteurs est adoptée|propositions? de rédaction[^.]{0,120}(?:sans objet|est adoptée|est rejetée|est retirée|non adoptée)[^.]{0,60}|constate qu'elle ne peut[^.]{0,120}|convient d'adopter[^.]{0,80})/gi;
+// En commission, on n'adopte pas seulement « l'article N » : on peut aussi adopter, rejeter ou
+// retirer des propositions de rédaction. Le motif couvre les deux formulations.
+const DECISION = /(proposition commune de rédaction des rapporteurs est adoptée|propositions? de rédaction[^.]{0,120}(?:sans objet|est adoptée|est rejetée|est retirée|non adoptée)[^.]{0,60}|adopte l'article[^.]{0,160}|constate qu'elle ne peut[^.]{0,120}|convient d'adopter[^.]{0,80})/gi;
 
 export function sliceSection(text, needle) {
   const heads = [...text.matchAll(HEAD)].map((m) => m.index);
@@ -132,12 +132,12 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     .replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 60);
   const artifact = {
     id: slug,
-    kind: /cmp\.html/i.test(url) ? "commission_mixte_paritaire" : "commission",
+    kind: arg("--kind") ?? "commission",
     date: date ?? null,
     source_ref: sourceRef ?? null,
     generated_at: new Date().toISOString(),
     extractor: "pipeline/extract-commission.mjs",
-    note: "Les membres d'une CMP siègent à titre individuel : une intervention rattachée à un parti est la position d'une personne de ce parti, pas la position officielle du groupe.",
+    note: "Les membres d'une commission siègent à titre individuel : une intervention rattachée à un parti est la position d'une personne de ce parti, pas la position officielle du groupe.",
     interventions: res.speeches.map(({ text, ...rest }) => ({ ...rest, text })),
     decisions: res.decisions,
   };

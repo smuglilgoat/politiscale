@@ -117,7 +117,7 @@ for (const file of files) {
   }
 }
 
-// Débats (commissions, CMP) : interventions individuelles rattachées à un parti.
+// Débats (commissions) : interventions individuelles rattachées à un parti.
 // Le Sénat et l'Assemblée n'ont pas le même vocabulaire de groupes : on n'invente pas de
 // correspondance. Un groupe de l'Assemblée doit être connu ; un groupe du Sénat est accepté mais
 // signalé tant que le mapping n'est pas établi depuis une source.

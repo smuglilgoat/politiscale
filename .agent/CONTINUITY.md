@@ -24,6 +24,14 @@ Tags : `[USER]` `[CODE]` `[TOOL]` `[ASSUMPTION]`. Inconnu = `UNCONFIRMED`.
   restent du contexte. Sinon on écrase les changements de position entre lectures.
 - 2026-10-15T17:25Z `[CODE]` Le **gouvernement** est un acteur distinct (`kind: "gouvernement"`),
   pas un parti : sa position s'affiche en contexte, elle n'est pas une option de réponse.
+- 2026-10-15T18:40Z `[USER]` **CMP écartée du périmètre, complètement.**
+- 2026-10-15T18:45Z `[CODE]` Artefact CMP supprimé, étape CMP retirée de la navette, source
+  `cr-cmp-2026-07-16` supprimée. L'étape d'ancrage devient `lecture_definitive_an`.
+- 2026-10-15T18:45Z `[CODE]` Conséquence assumée : la navette de l'agricole montre un **trou** entre
+  la lecture au Sénat et le vote final, le texte voté étant pourtant issu d'un compromis. Ce n'est
+  pas une erreur de saisie, c'est la décision.
+- 2026-10-15T18:45Z `[CODE]` La citation verbatim du GDR qui mentionne « les conclusions de la
+  commission mixte paritaire » est **conservée telle quelle** : c'est une citation, pas notre texte.
 - 2026-10-15T18:15Z `[USER]` Intégrer les comptes rendus de **commission et de CMP**, par
   intervention individuelle, chacune rattachée à son parti.
 - 2026-10-15T18:15Z `[CODE]` Une intervention de CMP n'est **pas** une position de groupe (14 membres

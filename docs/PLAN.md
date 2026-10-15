@@ -346,6 +346,35 @@ le marqueur de pagination (il faut recoller les fragments), et le sommaire écri
 « M. Éric Martineau (Dem) », tantôt le nom seul — une normalisation est nécessaire avant
 rapprochement, sinon l'orateur est silencieusement perdu.
 
+### 6.7 Commissions et CMP : interventions individuelles rattachées à leur parti
+
+`pipeline/extract-commission.mjs` traite les comptes rendus de commission et de **commission mixte
+paritaire**, et produit `content/debates/<id>.json` : chaque intervention individuelle, son orateur,
+et **son parti**, retrouvé dans les annuaires. Rendement mesuré sur la CMP du 16/07/2026 :
+**254 interventions, 254 rattachées, 0 orpheline**, plus 39 décisions de rédaction enregistrées.
+
+Trois pièges rencontrés, tous silencieux :
+
+- **Le Sénat sert des entités HTML nommées** (`souverainet&eacute;`) là où l'Assemblée sert de
+  l'UTF-8. Sans décodage, toute recherche d'un mot accentué échoue sans rien signaler : c'est
+  exactement ainsi que « acétamipride » avait disparu du jeu de données.
+- **Le tour de parole n'a pas de marqueur** : c'est « Nom, role. - texte ». Si le motif autorise un
+  point dans le nom, il enjambe la phrase précédente et fabrique des noms fantômes. Et si le role
+  n'est pas contraint à un mot de fonction, il ramasse les « M. Dupont, rapporteur. » cités en
+  passant.
+- **Une page hebdomadaire contient plusieurs CMP.** Il faut découper sur la bonne, et l'en-tête
+  apparaît deux fois (sommaire puis corps) : on retient la plage la plus longue.
+
+⚠️ **Une intervention de CMP n'est pas une position de groupe.** Les 14 membres y siègent à titre
+individuel. Ces propos sont donc recevables comme **preuve ou illustration** d'une position, jamais
+comme source d'une `stance` : celle-ci reste adossée au vote ou à une déclaration de groupe. Le
+fichier porte la mention en clair.
+
+⚠️ **Le mapping Sénat ↔ Assemblée n'est pas inventé.** La CMP mêle des groupes de l'Assemblée
+(`DEM`, `EPR`, `DR`, `LIOT`, `ECOS`, `RN`…) et des groupes du Sénat (`Les Républicains`, `SER`,
+`UCI`, `RDSE`) qui n'ont pas d'équivalent automatique. La porte les accepte mais **les liste comme
+non mappés** — à établir depuis une source le jour où le Sénat entre dans le test.
+
 ## 7. Architecture
 
 Volontairement minimale : **le contenu est le produit, l'application est un lecteur.**
@@ -394,10 +423,12 @@ est une action séparée ; `git` ne peut pas renommer un dépôt distant (API Gi
 content/
   parties.json  sources.json  taxonomy.json
   questions/
+  debates/                  # généré : interventions de commission/CMP, rattachées à un parti
 pipeline/
   fetch-snapshot.mjs        # télécharge et épingle l'instantané par SHA-256
   group-votes.mjs           # agrège les votes par groupe pour un scrutin
   extract-explications.mjs  # extrait du compte rendu l'intervention de chaque groupe
+  extract-commission.mjs    # extrait des comptes rendus de commission/CMP, une entrée par orateur
   validate-content.mjs      # porte bloquante (§6.3)
 .cache/                  # données brutes téléchargées, non versionnées
 src/                     # Svelte

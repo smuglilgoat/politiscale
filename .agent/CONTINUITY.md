@@ -24,6 +24,10 @@ Tags : `[USER]` `[CODE]` `[TOOL]` `[ASSUMPTION]`. Inconnu = `UNCONFIRMED`.
   restent du contexte. Sinon on écrase les changements de position entre lectures.
 - 2026-10-15T17:25Z `[CODE]` Le **gouvernement** est un acteur distinct (`kind: "gouvernement"`),
   pas un parti : sa position s'affiche en contexte, elle n'est pas une option de réponse.
+- 2026-10-15T18:15Z `[USER]` Intégrer les comptes rendus de **commission et de CMP**, par
+  intervention individuelle, chacune rattachée à son parti.
+- 2026-10-15T18:15Z `[CODE]` Une intervention de CMP n'est **pas** une position de groupe (14 membres
+  à titre individuel) : recevable comme preuve, jamais comme source d'une `stance`.
 - 2026-10-15T17:50Z `[USER]` **Sénat reporté.** Le modèle le prévoit (`groups: {an, senat}`), rien
   n'est implémenté côté Sénat.
 - 2026-10-15T17:50Z `[USER]` **La divergence interne des groupes doit être prise en compte.**
@@ -45,6 +49,18 @@ Tags : `[USER]` `[CODE]` `[TOOL]` `[ASSUMPTION]`. Inconnu = `UNCONFIRMED`.
 
 ## [DISCOVERIES]
 
+- 2026-10-15T18:10Z `[TOOL]` **Extraction CMP opérationnelle** : 254 interventions, **254 rattachées à
+  un parti**, 0 orpheline, 39 décisions. Artefact versionné : `content/debates/souverainete-agricoles.json`
+  (261 Ko). Répartition : SOC 38, LFI-NFP 37, Les Républicains 35, ECOS 33, DEM 25, SER 20, EPR 18,
+  DR 17, UCI 15, LIOT 9, RN 6, RDSE 1.
+- 2026-10-15T18:10Z `[TOOL]` **Piège majeur** : le Sénat sert des **entités HTML nommées**
+  (`souverainet&eacute;`, 5 642 `&eacute;` sur la page CMP) là où l'Assemblée sert de l'UTF-8. Sans
+  décodage, toute recherche de mot accentué échoue **silencieusement** — c'est la même famille d'erreur
+  que l'acétamipride invisible.
+- 2026-10-15T18:10Z `[TOOL]` Autres pièges corrigés : nom de motif ne pouvant contenir ni virgule ni
+  point (sinon noms fantômes), homonyme inactif de l'autre chambre avec groupe nul bloquant la bonne
+  correspondance, page hebdomadaire contenant plusieurs CMP et en-tête présent en double (sommaire +
+  corps).
 - 2026-10-15T17:45Z `[TOOL]` **Preuve chiffrée du besoin de navette** : sur le même texte à la même
   assemblée, l'ensemble passe de **369/178** (1re lecture, 02/06/2026) à **296/224** (texte CMP,
   20/07/2026). **73 députés changent de camp**, marge 0,34 → 0,13. Une `stance` unique par parti

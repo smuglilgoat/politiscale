@@ -117,6 +117,46 @@ for (const file of files) {
   }
 }
 
+// Débats (commissions, CMP) : interventions individuelles rattachées à un parti.
+// Le Sénat et l'Assemblée n'ont pas le même vocabulaire de groupes : on n'invente pas de
+// correspondance. Un groupe de l'Assemblée doit être connu ; un groupe du Sénat est accepté mais
+// signalé tant que le mapping n'est pas établi depuis une source.
+const unmappedSenate = new Set();
+let debateFiles = [];
+try {
+  debateFiles = (await readdir(path.join(CONTENT, "debates"))).filter((f) => f.endsWith(".json"));
+} catch { /* pas encore de débat */ }
+const debateIds = new Set();
+
+for (const file of debateFiles) {
+  const d = JSON.parse(await readFile(path.join(CONTENT, "debates", file), "utf8"));
+  const w = `debates/${file}`;
+  debateIds.add(d.id);
+  for (const f of ["id", "kind", "date", "source_ref", "interventions"]) {
+    if (!d[f]) err(w, `champ requis manquant : ${f}`);
+  }
+  if (d.source_ref && !sourceById.has(d.source_ref)) err(w, `source_ref inconnue : ${d.source_ref}`);
+  if (!Array.isArray(d.interventions) || d.interventions.length === 0) err(w, "aucune intervention");
+  for (const [i, it] of (d.interventions || []).entries()) {
+    const iw = `${w} intervention[${i}]`;
+    if (!it.name) err(iw, "orateur manquant");
+    if (!it.party) err(iw, "parti non rattaché : intervention non publiable");
+    if (!it.text || it.text.length < 10) err(iw, "texte manquant ou trop court");
+    if (it.chamber === "an" && !knownGroups.has(it.party)) err(iw, `groupe de l'Assemblée inconnu : ${it.party}`);
+    if (it.chamber === "senat" && !knownGroups.has(it.party)) unmappedSenate.add(it.party);
+  }
+}
+
+// Un renvoi de navette vers un débat doit exister.
+for (const file of files) {
+  const q = JSON.parse(await readFile(path.join(CONTENT, "questions", file), "utf8"));
+  for (const [i, st] of (q.navette || []).entries()) {
+    if (st.debat && !debateIds.has(st.debat)) {
+      err(`questions/${file} navette[${i}]`, `débat inconnu : ${st.debat}`);
+    }
+  }
+}
+
 if (errors.length) {
   console.error(`\n${errors.length} problème(s) — publication bloquée :\n`);
   for (const e of errors) console.error(`  - ${e}`);
@@ -125,4 +165,8 @@ if (errors.length) {
 }
 
 const positions = files.reduce((n, f) => n, 0);
-console.log(`${files.length} question(s) valide(s).`);
+console.log(`${files.length} question(s) valide(s), ${debateFiles.length} débat(s).`);
+if (unmappedSenate.size) {
+  console.log(`\nGroupes du Sénat non mappés (acceptés, mapping à établir depuis une source) :`);
+  for (const g of [...unmappedSenate].sort()) console.log(`  - ${g}`);
+}

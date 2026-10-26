@@ -8,13 +8,13 @@ En cas de doute, `docs/PLAN.md` fait foi.
 
 Projet au **M1c terminé**, M1d non commencé. **Une** question complète, **aucune interface**.
 
-- `content/` : **2 questions** — loi agricole (11/12 citations verbatim, origine *motion de rejet*)
-  et aide à mourir (9 citations verbatim, origine *texte final*, 2 justifications introuvables,
-  1 exemptée NI). `content/sources.json` : 11 sources officielles.
+- `content/` : **5 questions** (M1d terminé) — agriculture, aide à mourir, Corse, mineurs/réseaux
+  sociaux, fraudes sociales et fiscales. 10 à 11 citations verbatim par question, toutes vérifiées
+  par sous-chaîne contre le compte rendu avant écriture. `content/sources.json` : 17 sources.
 - `pipeline/` : `fetch-snapshot`, `group-votes`, `an-scrutin-groups`, `sync-evidence`,
   `rank-scrutins`, `select-texts`, `extract-explications`, `extract-commission`,
   `validate-content` (porte bloquante).
-- Aucune app Svelte, aucun moteur de score. C'est voulu : M1d est le go/no-go.
+- Aucune app Svelte, aucun moteur de score. Prochain jalon : **M2**.
 
 ## [DÉCISIONS]
 
@@ -33,6 +33,15 @@ Projet au **M1c terminé**, M1d non commencé. **Une** question complète, **auc
 
 ## [DÉCOUVERTES UTILES]
 
+- `[TOOL]` **La qualité du débat est le vrai facteur limitant, pas le clivage du vote.** Sondés à la
+  main : sur 9 textes examinés, 5 n'ont pas donné de débat exploitable. V3273 argumente sur le
+  Nutri-score et le Mercosur, V1303 est un chapelet d'interjections, V217 porte sur l'article 2 octies
+  et non sur la discussion générale, V2957 fonctionne mais porte sur la loi Duplomb, ancêtre direct de
+  la question 1. Un score automatique a été construit puis **abandonné** : il se trompait dans les
+  deux sens (6/11 à la question la mieux sourcée). Le tri reste la lecture.
+- `[TOOL]` **Un scrutin de 1re lecture en fin d'examen donne un débat article par article** ; une
+  lecture définitive ou un texte de CMP rouvre une discussion générale avec un orateur par groupe.
+  C'est le meilleur prédicteur de la qualité du débat.
 - `[TOOL]` **Un compte rendu de séance couvre plusieurs textes.** Celui de la loi agricole et celui de
   l'aide à mourir contiennent d'autres débats : sans découpage par point de l'ordre du jour, on
   attribue au mauvais texte les propos du précédent, sans aucun signal.

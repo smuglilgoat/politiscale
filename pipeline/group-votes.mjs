@@ -16,6 +16,11 @@ export const COHESION_THRESHOLD = 0.8;
 export function deriveStance(c) {
   const voters = c.POUR + c.CONTRE + c.ABSTENTION; // les absents ne comptent pas
   if (voters === 0) return "non_aborde";
+  // Abstention massive : le groupe ne se prononce pas. C'est une position, pas une fracture — la
+  // compter comme « mitige » confondrait un groupe uni dans l'abstention avec un groupe divisé.
+  if (c.ABSTENTION / voters >= 0.5 && c.ABSTENTION >= c.POUR && c.ABSTENTION >= c.CONTRE) {
+    return "abstention";
+  }
   if (c.POUR / voters >= COHESION_THRESHOLD) return "pour";
   if (c.CONTRE / voters >= COHESION_THRESHOLD) return "contre";
   return "mitige";

@@ -115,5 +115,23 @@
     "date": "2026-06-22",
     "licence": "Licence Ouverte 2.0 (Etalab)",
     "archive_url": null
+  },
+  {
+    "id": "cr-2026-07-21",
+    "kind": "officiel",
+    "title": "Compte rendu de la première séance du mardi 21 juillet 2026",
+    "url": "https://www.assemblee-nationale.fr/dyn/17/comptes-rendus/seance/CRSANR5L17S2026E1N023",
+    "date": "2026-07-21",
+    "licence": "Document parlementaire public — citation courte",
+    "archive_url": null
+  },
+  {
+    "id": "an-scrutin-8431",
+    "kind": "officiel",
+    "title": "Assemblée nationale — analyse du scrutin public n° 8431",
+    "url": "https://www.assemblee-nationale.fr/dyn/17/scrutins/8431",
+    "date": "2026-07-21",
+    "licence": "Licence Ouverte 2.0 (Etalab)",
+    "archive_url": null
   }
 ]

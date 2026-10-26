@@ -52,12 +52,16 @@ let text = fullText;
 // **dernière** occurrence de l'en-tête numéroté (le corps), jusqu'à l'en-tête numéroté suivant.
 // Chercher simplement un point numéroté ne marche pas : le texte est plein de « 1978. » et de listes.
 if (section) {
-  const ESC = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const titres = [...fullText.slice(0, 15000).matchAll(/(?:^|\s)(\d{1,2})\.\s+([\p{Lu}][^.]{3,90})/gu)]
+  // Le sommaire et le corps n'utilisent pas toujours la même apostrophe (« l’utilisation » vs
+  // « l'utilisation ») : sans normalisation, l'en-tête du corps n'est jamais reconnu et le découpage
+  // retombe sur le sommaire, ce qui produit une section de quelques centaines de caractères.
+  const ESC = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/['’]/g, "['’]");
+  const titres = [...fullText.slice(0, 15000).matchAll(/(?:^|\s)(\d{1,2})\.\s+([\p{Lu}][^.]{3,160})/gu)]
     .map((m) => ({ n: Number(m[1]), brut: m[2].trim() }))
     .filter((x) => x.n >= 1 && x.n <= 30);
-  // L'en-tête propre s'arrête au premier mot de procédure.
-  const entete = (t) => t.split(/\s+(?:Présentation|Lecture|Discussion|Vote|Suite|Explications)\b/)[0].trim();
+  // L'en-tête propre s'arrête au premier mot de procédure — y compris « Commission », qui suit le
+  // titre dans le corps (« 3. Protéger les mineurs … Commission mixte paritaire »).
+  const entete = (t) => t.split(/\s+(?:Présentation|Lecture|Discussion|Vote|Suite|Explications|Commission)\b/)[0].trim();
 
   const idx = titres.findIndex((x) => entete(x.brut).toLowerCase().includes(section.toLowerCase()));
   if (idx === -1) {
@@ -66,7 +70,9 @@ if (section) {
   }
   const cible = titres[idx];
   const suivant = titres[idx + 1];
-  const motif = (x) => new RegExp(`(?:^|\\s)${x.n}\\.\\s+${ESC(entete(x.brut))}`, "g");
+  // On cherche l'en-tête sur un préfixe borné : un titre capturé peut être coupé en plein mot, et
+  // chercher la chaîne entière ferait alors échouer la reconnaissance du corps.
+  const motif = (x) => new RegExp(`(?:^|\\s)${x.n}\\.\\s+${ESC(entete(x.brut).slice(0, 60))}`, "g");
 
   const occurrences = [...fullText.matchAll(motif(cible))].map((m) => m.index);
   if (!occurrences.length) {

@@ -1,0 +1,185 @@
+{
+  "id": "mineurs-reseaux-sociaux",
+  "country": "fr",
+  "locale": "fr",
+  "themes": ["numerique", "jeunesse"],
+  "version": "1.0.0",
+  "as_of": "2026-07-21",
+  "situation": "La proposition de loi vise à protéger les mineurs des risques liés à l’utilisation des réseaux sociaux. Dans sa version issue de la commission mixte paritaire, elle instaure une interdiction d’accès aux réseaux sociaux avant 15 ans, prévoit la suspension des comptes existants des moins de 15 ans et encadre leur usage dans les collèges et les lycées. Le 21 juillet 2026, l’Assemblée nationale a adopté le texte par 279 voix contre 81 et 66 abstentions.",
+  "situation_status": "source",
+  "texte": {
+    "type": "proposition_de_loi",
+    "titre": "proposition de loi visant à protéger les mineurs des risques auxquels les expose l’utilisation des réseaux sociaux",
+    "dossier_legislatif": null,
+    "scrutin": {
+      "chambre": "an",
+      "id": "VTANR5L17V8431",
+      "date": "2026-07-21",
+      "sort": "adopté"
+    },
+    "etat": "inconnu"
+  },
+  "ancrage": {
+    "etape": "lecture_definitive_an",
+    "scrutin": "VTANR5L17V8431",
+    "pourquoi": "règle B : seul scrutin intelligible de ce texte (38 scrutins, 35 amendements écartés, 2 sous le plancher) ; clivage 0,439 dont 34,3 % des votants dans un groupe fracturé."
+  },
+  "navette": [
+    { "etape": "lecture_definitive_an", "chambre": "an", "date": "2026-07-21", "scrutin": "VTANR5L17V8431", "vote": { "pour": 279, "contre": 81, "abstention": 66 } },
+    { "etape": "suite_inconnue", "chambre": null, "date": "2026-07-21", "gap": true, "gap_reason": "sort du texte (Conseil constitutionnel, promulgation) non documenté : état inconnu" }
+  ],
+  "positions": [
+    {
+      "group": "DEM",
+      "stance": "pour",
+      "stance_basis": "scrutin_derived",
+      "justification": "Nous agirons en rejetant dès maintenant cette motion déposée par La France insoumise.",
+      "speaker": "Laurent Croizier",
+      "source_ref": "cr-2026-07-21",
+      "quote_origin": "motion_de_rejet",
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8431", "pour": 32, "contre": 1, "abstention": 2, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "DR",
+      "stance": "pour",
+      "stance_basis": "sourced",
+      "justification": "Pour protéger la jeunesse contre le principal fléau de notre époque, le groupe Droite républicaine votera en faveur de la proposition de loi.",
+      "speaker": "Lionel Duparay",
+      "source_ref": "cr-2026-07-21",
+      "quote_origin": "motion_de_rejet",
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8431", "pour": 40, "contre": 0, "abstention": 3, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "ECOS",
+      "stance": "pour",
+      "stance_basis": "sourced",
+      "justification": "Notre Parlement a choisi l’âge de 15 ans et le groupe Écologiste et social soutiendra majoritairement cette mesure.",
+      "speaker": "Lisa Belluco",
+      "source_ref": "cr-2026-07-21",
+      "quote_origin": "motion_de_rejet",
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8431", "pour": 19, "contre": 7, "abstention": 7, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "EPR",
+      "stance": "pour",
+      "stance_basis": "sourced",
+      "justification": "Pour toutes ces raisons, notre groupe votera contre cette motion de rejet préalable, qui prouve une nouvelle fois que La France insoumise soutient les grandes plateformes américaines.",
+      "speaker": "Anne Genetet",
+      "source_ref": "cr-2026-07-21",
+      "quote_origin": "motion_de_rejet",
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8431", "pour": 83, "contre": 0, "abstention": 0, "nonvotant": 1 }
+      ]
+    },
+    {
+      "group": "GDR",
+      "stance": "mitige",
+      "stance_basis": "scrutin_derived",
+      "justification": null,
+      "justification_status": "introuvable",
+      "justification_exempt": "l’orateur du groupe intervient brièvement sans énoncer de position ; aucun propos de position retrouvé dans son intervention",
+      "speaker": null,
+      "source_ref": null,
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8431", "pour": 6, "contre": 3, "abstention": 5, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "HOR",
+      "stance": "pour",
+      "stance_basis": "scrutin_derived",
+      "justification": "vous proposez tout simplement de la rejeter de manière préalable.",
+      "speaker": "Laurent Marcangeli",
+      "source_ref": "cr-2026-07-21",
+      "quote_origin": "motion_de_rejet",
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8431", "pour": 33, "contre": 0, "abstention": 0, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "LFI-NFP",
+      "stance": "contre",
+      "stance_basis": "sourced",
+      "justification": "Naturellement, nous voterons cette motion de rejet.",
+      "speaker": "Arnaud Saint-Martin",
+      "source_ref": "cr-2026-07-21",
+      "quote_origin": "motion_de_rejet",
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8431", "pour": 0, "contre": 63, "abstention": 0, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "LIOT",
+      "stance": "pour",
+      "stance_basis": "sourced",
+      "justification": "interdire les réseaux sociaux dans les collèges et les lycées, comme le prévoit l’article 6, est une mesure de bon sens que nous soutiendrons.",
+      "speaker": "Joël Bruneau",
+      "source_ref": "cr-2026-07-21",
+      "quote_origin": "motion_de_rejet",
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8431", "pour": 22, "contre": 0, "abstention": 1, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "NI",
+      "stance": "mitige",
+      "stance_basis": "scrutin_derived",
+      "justification": null,
+      "justification_status": "exempt_structurel",
+      "justification_exempt": "les députés non inscrits n’ont pas d’orateur de groupe : la position est individuelle par construction, aucune déclaration collective ne peut exister",
+      "speaker": null,
+      "source_ref": null,
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8431", "pour": 6, "contre": 0, "abstention": 2, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "RN",
+      "stance": "abstention",
+      "stance_basis": "sourced",
+      "justification": "nous refuserons de le voter et nous nous abstiendrons",
+      "speaker": "Laure Lavalette",
+      "source_ref": "cr-2026-07-21",
+      "quote_origin": "motion_de_rejet",
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8431", "pour": 0, "contre": 2, "abstention": 14, "nonvotant": 1 }
+      ]
+    },
+    {
+      "group": "SOC",
+      "stance": "mitige",
+      "stance_basis": "scrutin_derived",
+      "justification": "Nous en discuterons dans quelques instants, raison pour laquelle nous voterons contre la motion de rejet.",
+      "speaker": "Arthur Delaporte",
+      "source_ref": "cr-2026-07-21",
+      "quote_origin": "motion_de_rejet",
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8431", "pour": 30, "contre": 0, "abstention": 28, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "UDDPLR",
+      "stance": "mitige",
+      "stance_basis": "scrutin_derived",
+      "justification": "votre motion de rejet a fait l’unanimité au sein du groupe UDR : nous sommes absolument tous contre !",
+      "speaker": "Olivier Fayssat",
+      "source_ref": "cr-2026-07-21",
+      "quote_origin": "motion_de_rejet",
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8431", "pour": 8, "contre": 5, "abstention": 4, "nonvotant": 0 }
+      ]
+    }
+  ],
+  "sources": [
+    { "id": "np-opendata" },
+    { "id": "an-scrutin-8431" },
+    { "id": "cr-2026-07-21" }
+  ],
+  "revisions": []
+}

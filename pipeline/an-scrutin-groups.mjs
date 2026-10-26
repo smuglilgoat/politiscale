@@ -20,6 +20,16 @@ export function scrutinNumber(idOrNumber) {
 const strip = (s) =>
   s.replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/\s+/g, " ").trim();
 
+// Noms de députés tels qu'écrits dans la liste du groupe.
+// Trois pièges, tous silencieux si le motif est naïf :
+//   - les mots doivent faire 2 caractères au moins, sinon « M. » serait avalé comme un prénom ;
+//   - « Mme » et « MM » ressemblent à des mots de nom et collent le nom suivant au précédent ;
+//   - « Contre », « Pour », « Abstention », « Non votant » sont des étiquettes de catégorie, pas des
+//     patronymes, mais sont capitalisées juste après la liste des noms.
+// On autorise « / » pour les noms composés (K/Bidi).
+const MOT = String.raw`(?:(?!Mme\b|Mmes\b|MM\b|Contre\b|Pour\b|Abstention\b|Non\b|Votant\b)[A-ZÉÀÂÎÔÛÇ][\p{L}'’\-/]{1,}|de|du|des|la|le|van|der|di|d['’]|l['’])`;
+const NOM = new RegExp(String.raw`(?:M\.|Mme|MM\.|Mmes)\s+(${MOT}(?:\s+${MOT})*)`, "gu");
+
 export async function anGroupVotes(idOrNumber, legislature = 17) {
   const num = scrutinNumber(idOrNumber);
   const url = `${BASE}/dyn/${legislature}/scrutins/${num}`;
@@ -46,6 +56,8 @@ export async function anGroupVotes(idOrNumber, legislature = 17) {
       contre: num2(/Contre\s*:\s*(\d+)/),
       abstention: num2(/Abstention\s*:\s*(\d+)/),
       nonvotant: num2(/Non votant\s*:\s*(\d+)/),
+      // Membres tels que l'Assemblée les rattache au groupe **pour ce vote**.
+      membres: [...t.matchAll(NOM)].map((m) => m[1].trim()),
     });
   }
   const total = groupes.reduce(
@@ -53,6 +65,17 @@ export async function anGroupVotes(idOrNumber, legislature = 17) {
     { pour: 0, contre: 0, abstention: 0, nonvotant: 0 },
   );
   return { scrutin: num, url, groupes, total };
+}
+
+// Annuaire orateur → groupe, au moment du vote. C'est la source qui fait foi : le sommaire d'un
+// compte rendu n'étiquette pas toujours les orateurs, et l'annuaire local porte le groupe *actuel*.
+export async function anSpeakerMap(idOrNumber, legislature = 17) {
+  const res = await anGroupVotes(idOrNumber, legislature);
+  const map = new Map();
+  for (const g of res.groupes) {
+    for (const nom of g.membres) map.set(nom, { label: g.label, organe: g.organe });
+  }
+  return map;
 }
 
 // Contrôle : les totaux par groupe doivent redonner la synthèse publiée sur la même page.

@@ -31,8 +31,10 @@ function toText(html) {
 const url = process.argv[2];
 const si = process.argv.indexOf("--section");
 const section = si !== -1 ? process.argv[si + 1] : null;
+const ci = process.argv.indexOf("--scrutin");
+const scrutinId = ci !== -1 ? process.argv[ci + 1] : null;
 if (!url) {
-  console.error('usage: node pipeline/extract-explications.mjs <url_du_compte_rendu> [--section "point de l\'ordre du jour"]');
+  console.error('usage: node pipeline/extract-explications.mjs <url> [--section "point"] [--scrutin VTANR5L17V…]');
   process.exit(2);
 }
 
@@ -77,30 +79,58 @@ if (section) {
   console.log(`section « ${entete(cible.brut)} » (point ${cible.n}) : ${text.length} caractères retenus\n`);
 }
 
-// 1. Annuaire orateur -> groupe.
-//    Le sommaire étiquette les orateurs « M. X (RN) »… sauf quand il ne le fait pas : sur certains
-//    points de l'ordre du jour il ne liste que les noms. On complète donc par l'annuaire des députés.
-//    La provenance est conservée : « sommaire » est la source du compte rendu lui-même, « roster »
-//    est le rattachement actuel, qui peut avoir dérivé depuis le vote.
-const people = new Map();
+// 1. Annuaire orateur -> groupe, par ordre de confiance décroissant :
+//    - « scrutin » : les listes de membres publiées par l'Assemblée **pour ce vote** (fait foi) ;
+//    - « sommaire » : l'étiquette du compte rendu, quand elle existe (certains points n'en ont pas) ;
+//    - « roster » : l'annuaire local, qui porte le groupe *actuel* et peut avoir dérivé depuis le vote.
+const CODE = {
+  "Rassemblement National": "RN",
+  "Ensemble pour la République": "EPR",
+  "La France insoumise - Nouveau Front Populaire": "LFI-NFP",
+  "Socialistes et apparentés": "SOC",
+  "Droite Républicaine": "DR",
+  "Écologiste et Social": "ECOS",
+  "Les Démocrates": "DEM",
+  "Horizons & Indépendants": "HOR",
+  "Libertés, Indépendants, Outre-mer et Territoires": "LIOT",
+  "Gauche Démocrate et Républicaine": "GDR",
+  "Union des droites pour la République": "UDDPLR",
+  "Députés non inscrits": "NI",
+};
+
+const sommaire = new Map();
 const re = new RegExp(`${SPEAKER}\\s+([\\p{Lu}][\\p{L}'’\\- ]{3,40}?)\\s*\\(${GROUPS}\\)`, "gu");
 const sommaireNoms = new Set();
 for (const m of fullText.matchAll(re)) {
-  people.set(m[1].trim(), { group: m[2], attribution: "sommaire" });
+  sommaire.set(m[1].trim(), m[2]);
   sommaireNoms.add(m[1].trim());
 }
+
+const rosterMap = new Map();
 try {
   const dep = JSON.parse(await readFile(path.resolve(".cache/raw/deputes.json"), "utf8"));
-  for (const d of dep) {
-    if (d.group_short && !people.has(d.full_name)) {
-      people.set(d.full_name, { group: d.group_short, attribution: "roster" });
-    }
-  }
+  for (const d of dep) if (d.group_short) rosterMap.set(d.full_name, d.group_short);
 } catch {
-  console.warn("deputes.json absent : rattachement limité au sommaire\n");
+  console.warn("deputes.json absent : pas de repli sur l'annuaire\n");
 }
-const noms = [...people.keys()].sort((a, b) => b.length - a.length); // plus long d'abord
-const roster = [...people.entries()].map(([name, v]) => ({ name, ...v }));
+
+let scrutinMap = new Map();
+if (scrutinId) {
+  const { anSpeakerMap } = await import("./an-scrutin-groups.mjs");
+  scrutinMap = await anSpeakerMap(scrutinId);
+  if (!scrutinMap.size) console.warn(`aucun membre lu sur le scrutin ${scrutinId}\n`);
+}
+
+function attribuer(nom) {
+  const s = scrutinMap.get(nom);
+  if (s && CODE[s.label]) return { group: CODE[s.label], attribution: "scrutin" };
+  if (sommaire.has(nom)) return { group: sommaire.get(nom), attribution: "sommaire" };
+  if (rosterMap.has(nom)) return { group: rosterMap.get(nom), attribution: "roster" };
+  return null;
+}
+
+const noms = [...new Set([...sommaire.keys(), ...rosterMap.keys(), ...scrutinMap.keys()])]
+  .sort((a, b) => b.length - a.length); // le plus long d'abord, pour ne pas couper un nom composé
 
 // 2. Découpage par le marqueur, puis fusion des fragments d'un même orateur.
 //    Un orateur peut être coupé plusieurs fois (le marqueur réapparaît en cours d'intervention),
@@ -118,8 +148,8 @@ for (;;) {
     // Le sommaire ajoute tantôt « (Dem) » après le nom, tantôt non : on normalise avant rapprochement.
     .replace(/\s*\((?:[^()]{1,12})\)\s*$/, "");
   const speaker = noms.find((n) => head.endsWith(n)) ?? null;
-  if (speaker) {
-    const info = people.get(speaker);
+  const info = speaker ? attribuer(speaker) : null;
+  if (speaker && info) {
     const prev = bySpeaker.get(speaker);
     bySpeaker.set(speaker, {
       name: speaker,
@@ -149,11 +179,22 @@ await writeFile(
   JSON.stringify({ url, extracted_at: new Date().toISOString(), interventions }, null, 2) + "\n",
 );
 
-console.log(`${roster.length} orateurs repérés au sommaire, ${interventions.length} interventions extraites`);
+console.log(`${sommaireNoms.size} orateurs étiquetés au sommaire, ${interventions.length} interventions extraites`);
 if (unmatched.length) console.log(`non rapprochés : ${unmatched.join(", ")}`);
 console.log();
 for (const i of interventions) {
-  const src = i.attribution === "sommaire" ? "compte rendu" : "annuaire (groupe actuel)";
-  console.log(`--- ${i.name} (${i.group}) — ${i.words} mots — source groupe : ${src}`);
+  const src = { scrutin: "scrutin du vote", sommaire: "compte rendu", roster: "annuaire (groupe actuel)" }[i.attribution] ?? i.attribution;
+  console.log(`--- ${i.name} (${i.group}) — ${i.words} mots — groupe : ${src}`);
   console.log(`    ${i.text.slice(0, 220).replace(/\s+/g, " ")}…`);
+}
+
+// Si le scrutin et l'annuaire local divergent, c'est une dérive de rattachement : on la montre.
+const derives = interventions.filter((i) => {
+  const s = scrutinMap.get(i.name);
+  const r = rosterMap.get(i.name);
+  return s && r && CODE[s.label] && CODE[s.label] !== r;
+});
+if (derives.length) {
+  console.log("\n⚠ rattachement divergent (scrutin vs annuaire actuel) :");
+  for (const d of derives) console.log(`  ${d.name} : ${CODE[scrutinMap.get(d.name).label]} au vote, ${rosterMap.get(d.name)} aujourd'hui`);
 }

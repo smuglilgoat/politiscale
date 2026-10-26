@@ -87,6 +87,7 @@ le ministre et le rapporteur — et s'affiche comme contexte, pas comme option d
       "justification": "…",           // citation VERBATIM de l'orateur du groupe, plafonnée (§6.3)
       "speaker": "David Magnier",     // qui l'a dit — sans orateur, pas de citation
       "source_ref": "cr-2026-07-20",  // renvoi vers sources.json
+      "quote_origin": "motion_de_rejet", // texte_final | motion_de_rejet | commission | programme | declaration | presse
       "justification_exempt": null,   // motif, seulement quand aucun orateur ne peut exister (NI)
       "evidence": [
         { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8427",
@@ -143,6 +144,7 @@ une liste ordonnée d'étapes, chacune avec sa chambre, son type, son scrutin et
   { "etape": "depot",                      "chambre": null,    "date": "2026-04-08" },
   { "etape": "ensemble_1re_lecture",       "chambre": "an",    "date": "2026-06-02", "scrutin": "VTANR5L17V7259", "vote": { "pour": 369, "contre": 178, "abstention": 15 } },
   { "etape": "ensemble_1re_lecture",       "chambre": "senat", "date": "2026-07-02", "vote": { "pour": 219, "contre": 111 } },
+  { "etape": "non_modelise",               "chambre": null,    "date": "2026-07-16", "gap": true, "gap_reason": "…" },
   { "etape": "lecture_definitive_an",      "chambre": "an",    "date": "2026-07-20", "scrutin": "VTANR5L17V8427", "vote": { "pour": 296, "contre": 224, "abstention": 41 } },
   { "etape": "promulgation",               "chambre": null,    "date": "2026-08-18", "source_ref": "legifrance-2026-796" }
 ]
@@ -177,6 +179,12 @@ lectures — et il y en a.
 **Question.** La situation, en clair. L'état du texte et sa date. Puis les positions des groupes,
 chacune avec explication dépliable et **lien vers la preuve** (le scrutin réel). Ordre d'affichage
 stable, jamais trié par position pour ne favoriser personne.
+
+**Chaque citation porte son origine, affichée.** Une étiquette dit d'où elle vient : *texte final*,
+*motion de rejet préalable*, *commission*, *programme*, *déclaration*, *presse*. Une citation sur le
+texte final n'a pas le même poids qu'une citation dans un débat procédural, et l'utilisateur doit
+pouvoir le voir sans lire la méthode. Le trou de navette porte lui aussi une étiquette (« étape non
+modélisée : compromis »), pour qu'une absence se lise comme une absence et non comme un oubli.
 
 Choix : une position de groupe, **« aucune de ces positions »**, ou **« je ne me prononce pas »**.
 Les deux derniers sont distincts et gratuits.
@@ -248,8 +256,10 @@ données** : le vrai scrutin portait sur l'ensemble de la loi agricole.
 
 - schéma respecté ; `evidence` non vide ; `stance` dans l'énumération ;
 - `group` connu de `parties.json` ; `source_ref` connu de `sources.json` ;
-- `justification` non nulle **et** accompagnée d'un `speaker`, sauf `justification_exempt` motivé ;
+- `justification` non nulle, avec `speaker` **et `quote_origin`**, sauf `justification_exempt` motivé ;
 - citation verbatim plafonnée selon la source : compte rendu officiel ≤ 45 mots, presse ≤ 25 mots ;
+- une étape `gap` porte obligatoirement un `gap_reason` et aucun scrutin ;
+- une entrée `context` (commission…) porte orateur, parti, source — et **jamais de `stance`** ;
 - quota thématique tenu ; `situation_status == "source"`.
 
 ### 6.4 Droit de réponse et arbitrage des litiges
@@ -448,29 +458,25 @@ avant.
 
 ## 13. Décisions et questions ouvertes
 
-**Décidé :** nom Hemicycle ; France ; positions hybrides ; unité = groupe parlementaire ; résultat =
-convergences nominatives sans pourcentage arbitraire ; statique sans backend ; Svelte + Vite ;
-droit de réponse + journal de corrections ; **l'arbitre d'un litige factuel est le porteur du projet
-(décision assumée, maillon faible connu)** ; la position déclarée prime sur le vote ; seuil de
-cohésion à 80 % comme convention publiée.
+**Décidé :** nom Hemicycle ; France uniquement ; **français seulement** ; positions hybrides ; unité =
+parti adossé à un groupe parlementaire ; résultat = convergences nominatives sans pourcentage
+arbitraire ; statique sans backend ; Svelte + Vite ; droit de réponse + journal de corrections ;
+**l'arbitre d'un litige factuel est le porteur du projet** (maillon faible connu) ; la position
+déclarée prime sur le vote ; seuil de cohésion à 80 % comme convention publiée ; **divergence
+interne signalée à part, jamais créditée** ; **chaque citation porte une étiquette d'origine** ;
+**les interventions de commission sont du contexte, jamais une stance** ; **le trou de navette porte
+une étiquette** ; CMP hors périmètre ; Sénat reporté.
 
 **Ouvert :**
 
-- Nombre de questions cible (~30 jouable, ~40 pour couvrir les thèmes).
-- **Étape d'ancrage** : laquelle définit la `stance` affichée. Tranché pour l'agricole sur le vote
-  final de l'Assemblée (20/07/2026) ; règle générale à écrire.
-- **Extraction en commission non vérifiée** : `extract-commission.mjs` a tourné sur un compte rendu
-  de commission mixte paritaire, écartée depuis. Aucune commission permanente traitée à ce jour —
-  à vérifier avant de compter sur cette brique (§6.7).
-- **Trou assumé dans la navette** : la CMP étant écartée du périmètre, la navette de l'agricole passe
-  directement de la lecture au Sénat au vote final, alors que le texte voté était un compromis.
-  Faut-il le dire à l'utilisateur, et comment ?
-- **Divergence interne** : un « accord partagé » avec un groupe scindé doit-il compter à moitié, pas
-  du tout, ou seulement être signalé ? Tranché pour « signalé à part », à confirmer.
-- Le Sénat entre-t-il un jour dans le test ? Mapping parti↔groupes à maintenir si oui (reporté).
-- Faut-il stocker la position **déclarée** ou la position **votée** comme `stance` principale quand
-  les deux divergent (EPR) ? Tranché en faveur du déclaré, à confirmer.
-- Langue : FR seul, ou FR/EN d'emblée ?
+- **Règle d'ancrage** : quelle étape définit la `stance`. Expliquée, en attente de décision.
+- **Nombre de questions cible** (~30 jouable / ~40 pour couvrir les thèmes). Expliqué, en attente.
+- **Extraction en commission non vérifiée** : `extract-commission.mjs` n'a tourné que sur un compte
+  rendu de CMP, écartée depuis. Aucune commission permanente traitée — à vérifier (§6.7), d'autant
+  que les commissions ne servent plus qu'au contexte.
+- Faut-il stocker la position **déclarée** ou la position **votée** quand les deux divergent (EPR) ?
+  Tranché en faveur du déclaré, à confirmer.
+- Le Sénat entre-t-il un jour dans le test ? Mapping parti↔groupes à maintenir si oui.
 
 ## 14. Références
 

@@ -7,6 +7,9 @@ import path from "node:path";
 
 const CONTENT = path.resolve("content");
 const STANCES = new Set(["pour", "contre", "abstention", "mitige", "non_aborde"]);
+// D'où sort la citation. Affiché comme étiquette : une citation du débat sur la motion de rejet
+// n'a pas le même poids qu'une citation sur le texte final, et l'utilisateur doit le voir.
+const QUOTE_ORIGINS = new Set(["texte_final", "motion_de_rejet", "commission", "programme", "declaration", "presse"]);
 const BASIS = new Set(["sourced", "scrutin_derived"]);
 const EVIDENCE_KINDS = new Set(["scrutin", "declaration", "programme", "wikidata"]);
 const LINK_KINDS = new Set(["news", "wikidata", "officiel"]);
@@ -59,6 +62,11 @@ for (const file of files) {
     if (!st.etape) err(sw, "etape manquante");
     if (!st.date) err(sw, "date manquante");
     if (st.source_ref && !sourceById.has(st.source_ref)) err(sw, `source_ref inconnue : ${st.source_ref}`);
+    // Une étape non modélisée doit s'annoncer comme telle, sinon le trou passe pour un oubli.
+    if (st.gap) {
+      if (!st.gap_reason) err(sw, "étape marquée « gap » sans motif");
+      if (st.scrutin) err(sw, "une étape « gap » ne peut pas porter un scrutin");
+    }
   }
   if (q.ancrage?.scrutin && !(q.navette || []).some((st) => st.scrutin === q.ancrage.scrutin)) {
     err(w, "scrutin d'ancrage absent de la navette : la position n'est rattachée à aucune étape");
@@ -88,6 +96,9 @@ for (const file of files) {
     }
     if (p.justification) {
       if (!p.speaker) err(pw, "justification sans speaker : une citation doit être attribuée");
+      if (!QUOTE_ORIGINS.has(p.quote_origin)) {
+        err(pw, `quote_origin manquant ou invalide : ${p.quote_origin}`);
+      }
       const src = sourceById.get(p.source_ref);
       if (!p.source_ref || !src) {
         err(pw, `source_ref absent ou inconnu de sources.json : ${p.source_ref}`);
@@ -107,6 +118,16 @@ for (const file of files) {
     for (const d of DERIVED) {
       if (d in p) err(pw, `champ dérivé stocké (« ${d} ») : à recalculer depuis evidence`);
     }
+  }
+
+  // Contexte (interventions de commission, etc.) : éclaire une décision, ne fonde jamais une stance.
+  for (const [i, c] of (q.context || []).entries()) {
+    const cw = `${w} context[${i}]`;
+    if (!c.speaker) err(cw, "orateur manquant");
+    if (!c.party) err(cw, "parti manquant");
+    if (!sourceById.has(c.source_ref)) err(cw, `source_ref absente ou inconnue : ${c.source_ref}`);
+    if (!QUOTE_ORIGINS.has(c.quote_origin)) err(cw, `quote_origin invalide : ${c.quote_origin}`);
+    if ("stance" in c) err(cw, "le contexte ne porte jamais de stance : il ne peut pas fonder une position");
   }
 
   for (const s of q.sources || []) {

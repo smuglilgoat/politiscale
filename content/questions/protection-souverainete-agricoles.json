@@ -262,7 +262,8 @@
           "abstention": 2,
           "nonvotant": 0
         }
-      ]
+      ],
+      "justification_status": "exempt_structurel"
     },
     {
       "group": "RN",

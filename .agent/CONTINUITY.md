@@ -8,9 +8,12 @@ En cas de doute, `docs/PLAN.md` fait foi.
 
 Projet au **M1c terminé**, M1d non commencé. **Une** question complète, **aucune interface**.
 
-- `content/` : 1 question (loi agricole), 12 positions, 11 citations verbatim sourcées, 1 exemptée (NI).
-- `pipeline/` : `fetch-snapshot`, `group-votes`, `rank-scrutins`, `extract-explications`,
-  `extract-commission`, `validate-content` (porte bloquante).
+- `content/` : **2 questions** — loi agricole (11/12 citations verbatim, origine *motion de rejet*)
+  et aide à mourir (9 citations verbatim, origine *texte final*, 2 justifications introuvables,
+  1 exemptée NI). `content/sources.json` : 11 sources officielles.
+- `pipeline/` : `fetch-snapshot`, `group-votes`, `an-scrutin-groups`, `sync-evidence`,
+  `rank-scrutins`, `select-texts`, `extract-explications`, `extract-commission`,
+  `validate-content` (porte bloquante).
 - Aucune app Svelte, aucun moteur de score. C'est voulu : M1d est le go/no-go.
 
 ## [DÉCISIONS]
@@ -30,6 +33,15 @@ Projet au **M1c terminé**, M1d non commencé. **Une** question complète, **auc
 
 ## [DÉCOUVERTES UTILES]
 
+- `[TOOL]` **Un compte rendu de séance couvre plusieurs textes.** Celui de la loi agricole et celui de
+  l'aide à mourir contiennent d'autres débats : sans découpage par point de l'ordre du jour, on
+  attribue au mauvais texte les propos du précédent, sans aucun signal.
+- `[TOOL]` **L'attribution d'un orateur à son groupe se lit sur la page de scrutin** (listes de
+  membres par groupe, au vote). 561 membres lus = 561 votants. Le sommaire du compte rendu n'étiquette
+  pas toujours les orateurs, et `deputes.json` porte le groupe actuel.
+- `[USER]` Quand un fait est introuvable, on l'écrit `inconnu` — jamais une supposition. Appliqué à
+  `texte.etat` et à `justification_status: "introuvable"` (DR et DEM pour l'aide à mourir : les
+  orateurs parlent de conscience, pas de position).
 - `[TOOL]` **Les totaux se réconcilient, l'attribution par groupe non.** `deputes.json` porte le
   groupe *actuel*, l'AN le groupe *au vote*. Sur le scrutin 8427 : EPR 50 vs 51, HOR 25 vs 24,
   SOC 65 vs 66 — les écarts se compensent au global. **Pour publier, prendre l'attribution de l'AN.**

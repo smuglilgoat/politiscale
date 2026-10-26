@@ -70,5 +70,32 @@
     "date": "2026-08-18",
     "licence": "Licence Ouverte 2.0 (Etalab)",
     "archive_url": null
+  },
+  {
+    "id": "cr-2026-07-15",
+    "kind": "officiel",
+    "title": "Compte rendu de la première séance du mercredi 15 juillet 2026",
+    "url": "https://www.assemblee-nationale.fr/dyn/17/comptes-rendus/seance/CRSANR5L17S2026E1N014",
+    "date": "2026-07-15",
+    "licence": "Document parlementaire public — citation courte",
+    "archive_url": null
+  },
+  {
+    "id": "an-scrutin-8280",
+    "kind": "officiel",
+    "title": "Assemblée nationale — analyse du scrutin public n° 8280",
+    "url": "https://www.assemblee-nationale.fr/dyn/17/scrutins/8280",
+    "date": "2026-07-15",
+    "licence": "Licence Ouverte 2.0 (Etalab)",
+    "archive_url": null
+  },
+  {
+    "id": "an-scrutin-5729",
+    "kind": "officiel",
+    "title": "Assemblée nationale — scrutin n° 5729, ensemble en deuxième lecture",
+    "url": "https://www.assemblee-nationale.fr/dyn/17/scrutins/5729",
+    "date": "2026-02-24",
+    "licence": "Licence Ouverte 2.0 (Etalab)",
+    "archive_url": null
   }
 ]

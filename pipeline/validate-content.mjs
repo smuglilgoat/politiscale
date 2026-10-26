@@ -10,6 +10,12 @@ const STANCES = new Set(["pour", "contre", "abstention", "mitige", "non_aborde"]
 // D'où sort la citation. Affiché comme étiquette : une citation du débat sur la motion de rejet
 // n'a pas le même poids qu'une citation sur le texte final, et l'utilisateur doit le voir.
 const QUOTE_ORIGINS = new Set(["texte_final", "motion_de_rejet", "commission", "programme", "declaration", "presse"]);
+// Sort du texte. « inconnu » est une valeur légitime : mieux vaut un état déclaré inconnu qu'un état
+// deviné. Il ne bloque pas la publication, il s'affiche.
+const ETATS = new Set(["en_navette", "adopte", "rejete", "promulgue", "censure_partiel", "inconnu"]);
+// Pourquoi une position n'a pas de citation. « exempt_structurel » : aucun orateur de groupe ne peut
+// exister (non-inscrits). « introuvable » : un orateur existe, mais il ne dit pas sa position.
+const ABSENCES = new Set(["exempt_structurel", "introuvable"]);
 const BASIS = new Set(["sourced", "scrutin_derived"]);
 const EVIDENCE_KINDS = new Set(["scrutin", "declaration", "programme", "wikidata"]);
 const LINK_KINDS = new Set(["news", "wikidata", "officiel"]);
@@ -45,6 +51,7 @@ for (const file of files) {
   }
   if (!Array.isArray(q.themes) || q.themes.length === 0) err(w, "themes doit être une liste non vide");
   if (!q.texte?.scrutin?.id) err(w, "texte.scrutin.id manquant : sans scrutin, pas de preuve");
+  if (!ETATS.has(q.texte?.etat)) err(w, `texte.etat invalide ou absent : ${q.texte?.etat}`);
   if (q.situation_status !== "source") {
     err(w, `situation_status="${q.situation_status}" : contexte non sourcé, non publiable`);
   }
@@ -91,8 +98,12 @@ for (const file of files) {
 
     // La justification est une citation verbatim : elle exige un orateur et une source,
     // ou une exemption motivée (aucun orateur de groupe ne peut exister).
-    if (!p.justification && !p.justification_exempt) {
-      err(pw, "ni justification ni justification_exempt : non publiable");
+    if (!p.justification) {
+      if (!p.justification_exempt) {
+        err(pw, "ni justification ni motif d'absence : non publiable");
+      } else if (!ABSENCES.has(p.justification_status)) {
+        err(pw, `absence sans statut explicite (attendu ${[...ABSENCES].join(" ou ")}) : ${p.justification_status}`);
+      }
     }
     if (p.justification) {
       if (!p.speaker) err(pw, "justification sans speaker : une citation doit être attribuée");

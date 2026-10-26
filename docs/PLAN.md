@@ -266,6 +266,13 @@ Choix **mesuré**, pas éditorial :
 6. **Quota d'équilibre thématique** : la taxonomie de 30 thèmes sert de contrainte. Pas plus de N
    questions par thème, chaque thème majeur représenté au moins une fois.
 7. On rédige ensuite. On ne sélectionne jamais « parce que le sujet parle ».
+8. **Qualité du débat — filtre indicatif.** `pipeline/score-debate.mjs` mesure, pour un texte, combien
+   de groupes produisent une phrase de position citable. Il **ne doit pas servir de garde-fou
+   automatique** : mesuré sur les questions déjà écrites, il se trompe dans les deux sens. L'aide à
+   mourir — la mieux sourcée du corpus, 11 citations vérifiées à la main — obtient 6/11, parce que
+   ses orateurs raisonnent au lieu de déclarer et qu'une déclaration de 50 mots sort du plafond de
+   citation. À l'inverse un débat rhétorique peut scorer haut sur des phrases étrangères au texte.
+   Un score bas signale un débat probablement bruité ; un score haut ne garantit rien.
 
 `pipeline/select-texts.mjs` applique 1 à 5 et classe les textes par clivage. Sur la 17e législature :
 212 votes « ensemble », 148 sous le plancher, 7 budgétaires écartés, **47 textes réellement

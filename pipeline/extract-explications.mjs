@@ -28,17 +28,9 @@ function toText(html) {
     .trim();
 }
 
-const url = process.argv[2];
-const si = process.argv.indexOf("--section");
-const section = si !== -1 ? process.argv[si + 1] : null;
-const ci = process.argv.indexOf("--scrutin");
-const scrutinId = ci !== -1 ? process.argv[ci + 1] : null;
-if (!url) {
-  console.error('usage: node pipeline/extract-explications.mjs <url> [--section "point"] [--scrutin VTANR5L17V…]');
-  process.exit(2);
-}
-
+export async function extractExplications({ url, section = null, scrutinId = null }) {
 const fullText = toText(await (await fetch(url, { headers: { "User-Agent": "hemicycle/0.1" } })).text());
+let sectionLabel = null;
 // Le sommaire (annuaire orateur → groupe) se trouve hors de la section retenue : on le lit sur le
 // texte complet, sinon le découpage supprime l'annuaire et plus aucun orateur n'est identifié.
 let text = fullText;
@@ -63,10 +55,12 @@ if (section) {
   // titre dans le corps (« 3. Protéger les mineurs … Commission mixte paritaire »).
   const entete = (t) => t.split(/\s+(?:Présentation|Lecture|Discussion|Vote|Suite|Explications|Commission)\b/)[0].trim();
 
-  const idx = titres.findIndex((x) => entete(x.brut).toLowerCase().includes(section.toLowerCase()));
+  // Comparaison tolérante : apostrophes droites ou typographiques, casse indifférente. Le sommaire
+  // écrit « d’agriculteur » là où l'appelant tape « d'agriculteur ».
+  const comparable = (s) => s.replace(/['’]/g, "'").toLowerCase();
+  const idx = titres.findIndex((x) => comparable(entete(x.brut)).includes(comparable(section)));
   if (idx === -1) {
-    console.error(`section « ${section} » introuvable parmi : ${titres.map((x) => `${x.n}. ${entete(x.brut)}`).join(" | ")}`);
-    process.exit(3);
+    throw new Error(`section « ${section} » introuvable parmi : ${titres.map((x) => `${x.n}. ${entete(x.brut)}`).join(" | ")}`);
   }
   const cible = titres[idx];
   const suivant = titres[idx + 1];
@@ -76,13 +70,13 @@ if (section) {
 
   const occurrences = [...fullText.matchAll(motif(cible))].map((m) => m.index);
   if (!occurrences.length) {
-    console.error(`en-tête « ${cible.n}. ${entete(cible.brut)} » absent du corps`);
-    process.exit(3);
+    throw new Error(`en-tête « ${cible.n}. ${entete(cible.brut)} » absent du corps`);
   }
   const debut = occurrences[occurrences.length - 1];
   const fin = suivant ? (fullText.slice(debut).search(motif(suivant)) + debut) : -1;
   text = fullText.slice(debut, fin > debut ? fin : fullText.length);
-  console.log(`section « ${entete(cible.brut)} » (point ${cible.n}) : ${text.length} caractères retenus\n`);
+  sectionLabel = entete(cible.brut);
+  console.log(`section « ${sectionLabel} » (point ${cible.n}) : ${text.length} caractères retenus\n`);
 }
 
 // 1. Annuaire orateur -> groupe, par ordre de confiance décroissant :
@@ -178,29 +172,45 @@ for (const { name, group, attribution, parts } of bySpeaker.values()) {
 // centaines de députés qui n'ont évidemment pas parlé dans cette section.
 const unmatched = [...sommaireNoms].filter((n) => !interventions.some((i) => i.name === n));
 
-const slug = url.replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "").slice(-60);
-await mkdir(path.resolve(".cache/explications"), { recursive: true });
-await writeFile(
-  path.resolve(`.cache/explications/${slug}.json`),
-  JSON.stringify({ url, extracted_at: new Date().toISOString(), interventions }, null, 2) + "\n",
-);
+// Dérive de rattachement : le scrutin dit une chose, l'annuaire actuel une autre.
+const derives = interventions
+  .filter((i) => {
+    const s = scrutinMap.get(i.name);
+    const r = rosterMap.get(i.name);
+    return s && r && CODE[s.label] && CODE[s.label] !== r;
+  })
+  .map((i) => ({ name: i.name, auVote: CODE[scrutinMap.get(i.name).label], aujourdhui: rosterMap.get(i.name) }));
 
-console.log(`${sommaireNoms.size} orateurs étiquetés au sommaire, ${interventions.length} interventions extraites`);
-if (unmatched.length) console.log(`non rapprochés : ${unmatched.join(", ")}`);
-console.log();
-for (const i of interventions) {
-  const src = { scrutin: "scrutin du vote", sommaire: "compte rendu", roster: "annuaire (groupe actuel)" }[i.attribution] ?? i.attribution;
-  console.log(`--- ${i.name} (${i.group}) — ${i.words} mots — groupe : ${src}`);
-  console.log(`    ${i.text.slice(0, 220).replace(/\s+/g, " ")}…`);
+return { url, section: sectionLabel, interventions, unmatched, sommaireCount: sommaireNoms.size, derives };
 }
 
-// Si le scrutin et l'annuaire local divergent, c'est une dérive de rattachement : on la montre.
-const derives = interventions.filter((i) => {
-  const s = scrutinMap.get(i.name);
-  const r = rosterMap.get(i.name);
-  return s && r && CODE[s.label] && CODE[s.label] !== r;
-});
-if (derives.length) {
-  console.log("\n⚠ rattachement divergent (scrutin vs annuaire actuel) :");
-  for (const d of derives) console.log(`  ${d.name} : ${CODE[scrutinMap.get(d.name).label]} au vote, ${rosterMap.get(d.name)} aujourd'hui`);
+if (import.meta.url === `file://${process.argv[1]}`) {
+  const url = process.argv[2];
+  const si = process.argv.indexOf("--section");
+  const section = si !== -1 ? process.argv[si + 1] : null;
+  const ci = process.argv.indexOf("--scrutin");
+  const scrutinId = ci !== -1 ? process.argv[ci + 1] : null;
+  if (!url) {
+    console.error('usage: node pipeline/extract-explications.mjs <url> [--section "point"] [--scrutin VTANR5L17V…]');
+    process.exit(2);
+  }
+  const res = await extractExplications({ url, section, scrutinId });
+  const slug = url.replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "").slice(-60);
+  await mkdir(path.resolve(".cache/explications"), { recursive: true });
+  await writeFile(
+    path.resolve(`.cache/explications/${slug}.json`),
+    JSON.stringify({ url, section: res.section, extracted_at: new Date().toISOString(), interventions: res.interventions }, null, 2) + "\n",
+  );
+  console.log(`${res.sommaireCount} orateurs étiquetés au sommaire, ${res.interventions.length} interventions extraites`);
+  if (res.unmatched.length) console.log(`non rapprochés : ${res.unmatched.join(", ")}`);
+  console.log();
+  for (const i of res.interventions) {
+    const src = { scrutin: "scrutin du vote", sommaire: "compte rendu", roster: "annuaire (groupe actuel)" }[i.attribution] ?? i.attribution;
+    console.log(`--- ${i.name} (${i.group}) — ${i.words} mots — groupe : ${src}`);
+    console.log(`    ${i.text.slice(0, 220).replace(/\s+/g, " ")}…`);
+  }
+  if (res.derives.length) {
+    console.log("\n⚠ rattachement divergent (scrutin vs annuaire actuel) :");
+    for (const d of res.derives) console.log(`  ${d.name} : ${d.auVote} au vote, ${d.aujourdhui} aujourd'hui`);
+  }
 }

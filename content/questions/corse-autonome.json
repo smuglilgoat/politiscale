@@ -1,0 +1,184 @@
+{
+  "id": "corse-autonome",
+  "country": "fr",
+  "locale": "fr",
+  "themes": ["institutions", "territoires"],
+  "version": "1.0.0",
+  "as_of": "2026-06-22",
+  "situation": "Le projet de loi constitutionnelle pour une Corse autonome au sein de la République reconnaît à la collectivité de Corse une autonomie qui, selon ses promoteurs, ne remet en cause ni l’unité de la République ni l’égalité entre les citoyens. Il est l’aboutissement du processus de Beauvau engagé en 2022 et d’un texte né de l’assassinat d’Yvan Colonna. Le 22 juin 2026, l’Assemblée nationale l’a adopté en première lecture par 271 voix contre 202 et 64 abstentions.",
+  "situation_status": "source",
+  "texte": {
+    "type": "projet_de_loi_constitutionnelle",
+    "titre": "projet de loi constitutionnelle pour une Corse autonome au sein de la République",
+    "dossier_legislatif": null,
+    "scrutin": {
+      "chambre": "an",
+      "id": "VTANR5L17V7454",
+      "date": "2026-06-22",
+      "sort": "adopté"
+    },
+    "etat": "inconnu"
+  },
+  "ancrage": {
+    "etape": "1re_lecture_an",
+    "scrutin": "VTANR5L17V7454",
+    "pourquoi": "règle B : clivage 0,654, le plus élevé des étapes intelligibles de ce texte (25 scrutins, 1 seul retenu après filtres) ; marge 0,128 et 43,6 % des votants dans un groupe fracturé."
+  },
+  "navette": [
+    { "etape": "1re_lecture_an", "chambre": "an", "date": "2026-06-22", "scrutin": "VTANR5L17V7454", "vote": { "pour": 271, "contre": 202, "abstention": 64 } },
+    { "etape": "suite_inconnue", "chambre": null, "date": "2026-06-22", "gap": true, "gap_reason": "suite de la navette constitutionnelle (Sénat, puis Congrès ou référendum) non documentée : état inconnu" }
+  ],
+  "positions": [
+    {
+      "group": "DEM",
+      "stance": "pour",
+      "stance_basis": "sourced",
+      "justification": "Le texte que nous allons adopter constitue une reconnaissance constitutionnelle pleinement assumée de la singularité corse, en conférant à la Corse une autonomie qui ne remet en cause ni l’unité de la République ni l’égalité entre ses citoyens.",
+      "speaker": "Jean-Paul Mattei",
+      "source_ref": "cr-2026-06-22",
+      "quote_origin": "texte_final",
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V7454", "pour": 25, "contre": 0, "abstention": 11, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "DR",
+      "stance": "mitige",
+      "stance_basis": "scrutin_derived",
+      "justification": "je m’abstiendrai, afin de lui donner plus de chances de poursuivre son chemin au Sénat",
+      "speaker": "François-Xavier Ceccoli",
+      "source_ref": "cr-2026-06-22",
+      "quote_origin": "texte_final",
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V7454", "pour": 1, "contre": 34, "abstention": 10, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "ECOS",
+      "stance": "pour",
+      "stance_basis": "sourced",
+      "justification": "faisons le choix de renforcer notre démocratie, notre République, celle qui unit dans la diversité, en votant pour ce texte.",
+      "speaker": "Sandra Regol",
+      "source_ref": "cr-2026-06-22",
+      "quote_origin": "texte_final",
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V7454", "pour": 27, "contre": 5, "abstention": 4, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "EPR",
+      "stance": "pour",
+      "stance_basis": "scrutin_derived",
+      "justification": "Après cinquante ans de tâtonnements institutionnels et d’une histoire de la Corse qui s’est écrite au fil des heurts, de la méfiance, parfois de la violence voire de l’insurrection, une occasion historique s’offre à nous aujourd’hui.",
+      "speaker": "Pierre Cazeneuve",
+      "source_ref": "cr-2026-06-22",
+      "quote_origin": "texte_final",
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V7454", "pour": 66, "contre": 5, "abstention": 11, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "GDR",
+      "stance": "mitige",
+      "stance_basis": "sourced",
+      "justification": "les membres du groupe GDR sont partagés entre les trois expressions de vote",
+      "speaker": "Elsa Faucillon",
+      "source_ref": "cr-2026-06-22",
+      "quote_origin": "texte_final",
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V7454", "pour": 6, "contre": 6, "abstention": 2, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "HOR",
+      "stance": "pour",
+      "stance_basis": "sourced",
+      "justification": "Il votera très majoritairement le projet de loi constitutionnelle.",
+      "speaker": "Laurent Marcangeli",
+      "source_ref": "cr-2026-06-22",
+      "quote_origin": "texte_final",
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V7454", "pour": 22, "contre": 0, "abstention": 6, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "LFI-NFP",
+      "stance": "pour",
+      "stance_basis": "sourced",
+      "justification": "Pour toutes ces raisons, nous avons choisi un cap clair : nous votons pour ce texte aujourd’hui",
+      "speaker": "Éric Coquerel",
+      "source_ref": "cr-2026-06-22",
+      "quote_origin": "texte_final",
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V7454", "pour": 60, "contre": 2, "abstention": 0, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "LIOT",
+      "stance": "pour",
+      "stance_basis": "sourced",
+      "justification": "Notre groupe accueille favorablement le texte en faveur d’une Corse autonome, tel qu’il résulte des débats dans l’hémicycle la semaine dernière.",
+      "speaker": "Paul Molac",
+      "source_ref": "cr-2026-06-22",
+      "quote_origin": "texte_final",
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V7454", "pour": 21, "contre": 2, "abstention": 0, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "NI",
+      "stance": "mitige",
+      "stance_basis": "scrutin_derived",
+      "justification": null,
+      "justification_status": "exempt_structurel",
+      "justification_exempt": "les députés non inscrits n’ont pas d’orateur de groupe : la position est individuelle par construction, aucune déclaration collective ne peut exister",
+      "speaker": null,
+      "source_ref": null,
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V7454", "pour": 2, "contre": 6, "abstention": 1, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "RN",
+      "stance": "contre",
+      "stance_basis": "sourced",
+      "justification": "C’est la raison pour laquelle le groupe Rassemblement national votera contre ce texte.",
+      "speaker": "Stéphane Rambaud",
+      "source_ref": "cr-2026-06-22",
+      "quote_origin": "texte_final",
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V7454", "pour": 0, "contre": 120, "abstention": 0, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "SOC",
+      "stance": "mitige",
+      "stance_basis": "scrutin_derived",
+      "justification": "Malgré ces réserves, ce texte représente une étape utile pour mieux prendre en compte les spécificités de la Corse et construire une autonomie pleinement compatible avec les principes de notre République.",
+      "speaker": "Marc Pena",
+      "source_ref": "cr-2026-06-22",
+      "quote_origin": "texte_final",
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V7454", "pour": 41, "contre": 5, "abstention": 19, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "UDDPLR",
+      "stance": "contre",
+      "stance_basis": "sourced",
+      "justification": "Notre désaccord ne porte pas sur l’ambition mais sur la sécurité du texte, car une révision constitutionnelle est, par nature, presque impossible à corriger une fois adoptée.",
+      "speaker": "Olivier Fayssat",
+      "source_ref": "cr-2026-06-22",
+      "quote_origin": "texte_final",
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V7454", "pour": 0, "contre": 17, "abstention": 0, "nonvotant": 0 }
+      ]
+    }
+  ],
+  "sources": [
+    { "id": "np-opendata" },
+    { "id": "an-scrutin-7454" },
+    { "id": "cr-2026-06-22" }
+  ],
+  "revisions": []
+}

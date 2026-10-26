@@ -97,5 +97,23 @@
     "date": "2026-02-24",
     "licence": "Licence Ouverte 2.0 (Etalab)",
     "archive_url": null
+  },
+  {
+    "id": "cr-2026-06-22",
+    "kind": "officiel",
+    "title": "Compte rendu de la séance du 22 juin 2026 (projet de loi constitutionnelle pour une Corse autonome)",
+    "url": "https://www.assemblee-nationale.fr/dyn/17/comptes-rendus/seance/CRSANR5L17S2026O1N280",
+    "date": "2026-06-22",
+    "licence": "Document parlementaire public — citation courte",
+    "archive_url": null
+  },
+  {
+    "id": "an-scrutin-7454",
+    "kind": "officiel",
+    "title": "Assemblée nationale — analyse du scrutin public n° 7454",
+    "url": "https://www.assemblee-nationale.fr/dyn/17/scrutins/7454",
+    "date": "2026-06-22",
+    "licence": "Licence Ouverte 2.0 (Etalab)",
+    "archive_url": null
   }
 ]

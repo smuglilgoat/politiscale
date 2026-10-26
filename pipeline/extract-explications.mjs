@@ -51,9 +51,9 @@ if (section) {
   const titres = [...fullText.slice(0, 15000).matchAll(/(?:^|\s)(\d{1,2})\.\s+([\p{Lu}][^.]{3,160})/gu)]
     .map((m) => ({ n: Number(m[1]), brut: m[2].trim() }))
     .filter((x) => x.n >= 1 && x.n <= 30);
-  // L'en-tête propre s'arrête au premier mot de procédure — y compris « Commission », qui suit le
-  // titre dans le corps (« 3. Protéger les mineurs … Commission mixte paritaire »).
-  const entete = (t) => t.split(/\s+(?:Présentation|Lecture|Discussion|Vote|Suite|Explications|Commission)\b/)[0].trim();
+  // L'en-tête propre s'arrête au premier mot de procédure — y compris « Commission » (qui suit le
+  // titre dans le corps) et « Article » (le sommaire précise parfois « … plus juste Article 2 octies »).
+  const entete = (t) => t.split(/\s+(?:Présentation|Lecture|Discussion|Vote|Suite|Explications|Commission|Article)\b/)[0].trim();
 
   // Comparaison tolérante : apostrophes droites ou typographiques, casse indifférente. Le sommaire
   // écrit « d’agriculteur » là où l'appelant tape « d'agriculteur ».
@@ -99,10 +99,14 @@ const CODE = {
 };
 
 const sommaire = new Map();
+// Le sommaire abrège les groupes autrement que la page de scrutin : « UDR », « EcoS », « Dem ».
+// Sans normalisation, une position se retrouve avec un code inconnu de parties.json.
+const ALIAS = { UDR: "UDDPLR", EcoS: "ECOS", Dem: "DEM", SOC: "SOC" };
 const re = new RegExp(`${SPEAKER}\\s+([\\p{Lu}][\\p{L}'’\\- ]{3,40}?)\\s*\\(${GROUPS}\\)`, "gu");
 const sommaireNoms = new Set();
 for (const m of fullText.matchAll(re)) {
-  sommaire.set(m[1].trim(), m[2]);
+  const brut = m[2];
+  sommaire.set(m[1].trim(), ALIAS[brut] ?? brut);
   sommaireNoms.add(m[1].trim());
 }
 

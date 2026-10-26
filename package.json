@@ -11,7 +11,6 @@
     "rank-scrutins": "node pipeline/rank-scrutins.mjs",
     "an-scrutin-groups": "node pipeline/an-scrutin-groups.mjs",
     "sync-evidence": "node pipeline/sync-evidence.mjs",
-    "select-texts": "node pipeline/select-texts.mjs",
-    "score-debate": "node pipeline/score-debate.mjs"
+    "select-texts": "node pipeline/select-texts.mjs"
   }
 }

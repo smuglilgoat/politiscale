@@ -169,10 +169,24 @@ Trois constats, vérifiés sur données réelles :
   l'Assemblée, alors que le texte voté était issu d'un compromis. Le trou est volontaire ; il n'est
   pas une erreur de saisie.
 
-Ancrage de la position : la question est ancrée sur **une étape** (la décisive : le vote final), et
-les positions sont prises à cette étape. Les autres étapes restent consultables comme contexte.
-C'est le seul moyen d'avoir une `stance` par parti sans écraser les changements de position entre
-lectures — et il y en a.
+**Règle d'ancrage (B) : l'étape la plus clivante parmi les étapes intelligibles.** Elle est
+**calculée**, pas choisie — c'est ce qui la rend publiable. `pipeline/rank-scrutins.mjs` l'applique :
+
+1. **Intelligibilité** : seuls les votes sur l'ensemble ou sur un article. Les amendements et
+   sous-amendements sont écartés — un 57/59/1 sur une correction de rédaction est très clivant et
+   n'apprend rien à un citoyen.
+2. **Plancher d'engagement** : `pour + contre ≥ 250`. Un vote où plus de députés s'abstiennent qu'ils
+   ne votent pour ou contre n'exprime pas un choix de la chambre, c'est un moment procédural.
+3. **Clivage** = `0,5 × (1 − marge) + 0,5 × dispersion`, où
+   `marge = |pour − contre| / votants` et `dispersion` = part des votants dans un groupe fracturé.
+
+Le plancher n'est pas cosmétique : sans lui la règle élit, sur la loi agricole, un article voté par
+94 personnes avec 38 abstentions (clivage 0,72) plutôt que le vote final à 561 votants
+(clivage 0,60). Avec lui, elle retient le vote final — et il ne reste que **2 votes intelligibles**
+sur 423 scrutins, ce qui est en soi une information sur la densité réelle d'un texte.
+
+Les paramètres (intelligibilité, seuil 250, pondération 50/50) sont des **conventions**, publiées
+comme telles. Chaque question enregistre son ancrage et son motif (`ancrage.pourquoi`).
 
 ## 5. Ce que voit l'utilisateur
 
@@ -432,6 +446,7 @@ content/
 pipeline/
   fetch-snapshot.mjs        # télécharge et épingle l'instantané par SHA-256
   group-votes.mjs           # agrège les votes par groupe pour un scrutin
+  rank-scrutins.mjs         # applique la règle d'ancrage B : classe les étapes par clivage
   extract-explications.mjs  # extrait du compte rendu l'intervention de chaque groupe
   extract-commission.mjs    # extrait des comptes rendus de commission, une entrée par orateur
   validate-content.mjs      # porte bloquante (§6.3)
@@ -448,7 +463,7 @@ docs/  PLAN.md  METHODOLOGY.md
 | M1a | Preuve de la chaîne de données | **fait** — §6.5, totaux concordants |
 | M1b | Pipeline versionné + 1 question réelle (faits) | `npm run validate` échoue sur `justification: null` |
 | M1c | Justifications sourcées pour 1 question | **fait** — 11/12 groupes, verbatim du compte rendu |
-| M1d | 5 questions bout en bout | chaque phrase se résout vers un scrutin ou un compte rendu |
+| M1d | 5 questions bout en bout, ancrage par la règle B | chaque citation se résout vers un scrutin ou un compte rendu |
 | M2 | App Svelte : parcours, résultat, localStorage, build statique | 5 questions jouables hors ligne, résultat exportable |
 | M3 | ~40 questions, équilibre thématique, `METHODOLOGY.md`, a11y | porte verte, quota tenu |
 | M4 | Publication, droit de réponse, suivi | — |
@@ -465,12 +480,11 @@ arbitraire ; statique sans backend ; Svelte + Vite ; droit de réponse + journal
 déclarée prime sur le vote ; seuil de cohésion à 80 % comme convention publiée ; **divergence
 interne signalée à part, jamais créditée** ; **chaque citation porte une étiquette d'origine** ;
 **les interventions de commission sont du contexte, jamais une stance** ; **le trou de navette porte
-une étiquette** ; CMP hors périmètre ; Sénat reporté.
+une étiquette** ; **règle d'ancrage B, calculée** (`rank-scrutins.mjs`) ; **cible : 40 questions** ;
+CMP hors périmètre ; Sénat reporté.
 
 **Ouvert :**
 
-- **Règle d'ancrage** : quelle étape définit la `stance`. Expliquée, en attente de décision.
-- **Nombre de questions cible** (~30 jouable / ~40 pour couvrir les thèmes). Expliqué, en attente.
 - **Extraction en commission non vérifiée** : `extract-commission.mjs` n'a tourné que sur un compte
   rendu de CMP, écartée depuis. Aucune commission permanente traitée — à vérifier (§6.7), d'autant
   que les commissions ne servent plus qu'au contexte.

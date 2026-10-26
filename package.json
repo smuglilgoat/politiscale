@@ -7,6 +7,7 @@
     "group-votes": "node pipeline/group-votes.mjs",
     "validate": "node pipeline/validate-content.mjs",
     "extract-commission": "node pipeline/extract-commission.mjs",
-    "extract-explications": "node pipeline/extract-explications.mjs"
+    "extract-explications": "node pipeline/extract-explications.mjs",
+    "rank-scrutins": "node pipeline/rank-scrutins.mjs"
   }
 }

@@ -1,0 +1,184 @@
+{
+  "id": "fraudes-sociales-fiscales",
+  "country": "fr",
+  "locale": "fr",
+  "themes": ["fraude", "finances_publiques"],
+  "version": "1.0.0",
+  "as_of": "2026-05-04",
+  "situation": "Le projet de loi relatif à la lutte contre les fraudes sociales et fiscales, dans sa version issue de la commission mixte paritaire, renforce les moyens de contrôle et de sanction contre la fraude sociale et fiscale. Le 4 mai 2026, l’Assemblée nationale l’a adopté par 335 voix contre 182 et 5 abstentions.",
+  "situation_status": "source",
+  "texte": {
+    "type": "projet_de_loi",
+    "titre": "projet de loi relatif à la lutte contre les fraudes sociales et fiscales",
+    "dossier_legislatif": null,
+    "scrutin": {
+      "chambre": "an",
+      "id": "VTANR5L17V6319",
+      "date": "2026-05-04",
+      "sort": "adopté"
+    },
+    "etat": "inconnu"
+  },
+  "ancrage": {
+    "etape": "lecture_definitive_an",
+    "scrutin": "VTANR5L17V6319",
+    "pourquoi": "règle B : vote sur l'ensemble du texte issu de la CMP, seule étape intelligible retenue ; clivage 0,381 (marge 0,293), le clivage tenant surtout à la dispersion des groupes."
+  },
+  "navette": [
+    { "etape": "lecture_definitive_an", "chambre": "an", "date": "2026-05-04", "scrutin": "VTANR5L17V6319", "vote": { "pour": 335, "contre": 182, "abstention": 5 } },
+    { "etape": "suite_inconnue", "chambre": null, "date": "2026-05-04", "gap": true, "gap_reason": "sort du texte (Conseil constitutionnel, promulgation) non documenté : état inconnu" }
+  ],
+  "positions": [
+    {
+      "group": "DEM",
+      "stance": "pour",
+      "stance_basis": "sourced",
+      "justification": "En cohérence avec l’engagement du groupe Les Démocrates dans l’élaboration et l’adoption de ce texte, nous voterons sans réserve les conclusions de la commission mixte paritaire.",
+      "speaker": "Cyrille Isaac-Sibille",
+      "source_ref": "cr-2026-05-04",
+      "quote_origin": "motion_de_rejet",
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V6319", "pour": 34, "contre": 0, "abstention": 0, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "DR",
+      "stance": "pour",
+      "stance_basis": "sourced",
+      "justification": "Ce texte, nous le réclamions depuis plus d’un an, et le groupe de la Droite républicaine est fier qu’il ait enfin été examiné, car il était attendu par les Français.",
+      "speaker": "Thibault Bazin",
+      "source_ref": "cr-2026-05-04",
+      "quote_origin": "motion_de_rejet",
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V6319", "pour": 48, "contre": 0, "abstention": 0, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "ECOS",
+      "stance": "contre",
+      "stance_basis": "sourced",
+      "justification": "nous voterons contre ce texte",
+      "speaker": "Christine Arrighi",
+      "source_ref": "cr-2026-05-04",
+      "quote_origin": "motion_de_rejet",
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V6319", "pour": 0, "contre": 34, "abstention": 0, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "EPR",
+      "stance": "pour",
+      "stance_basis": "sourced",
+      "justification": "Le groupe EPR votera en faveur de ce texte.",
+      "speaker": "Daniel Labaronne",
+      "source_ref": "cr-2026-05-04",
+      "quote_origin": "motion_de_rejet",
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V6319", "pour": 79, "contre": 0, "abstention": 0, "nonvotant": 1 }
+      ]
+    },
+    {
+      "group": "GDR",
+      "stance": "contre",
+      "stance_basis": "sourced",
+      "justification": "le groupe GDR votera celle-ci car la commission mixte paritaire a aggravé le texte.",
+      "speaker": "Emmanuel Maurel",
+      "source_ref": "cr-2026-05-04",
+      "quote_origin": "motion_de_rejet",
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V6319", "pour": 0, "contre": 16, "abstention": 0, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "HOR",
+      "stance": "pour",
+      "stance_basis": "sourced",
+      "justification": "C’est pourquoi nous voterons en faveur des conclusions de la commission mixte paritaire.",
+      "speaker": "Nathalie Colin-Oesterlé",
+      "source_ref": "cr-2026-05-04",
+      "quote_origin": "motion_de_rejet",
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V6319", "pour": 33, "contre": 0, "abstention": 0, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "LFI-NFP",
+      "stance": "contre",
+      "stance_basis": "sourced",
+      "justification": "Troisièmement, la défense du droit d’obtenir des moyens convenables d’existence nous conduit à rejeter le projet de loi.",
+      "speaker": "Mathilde Feld",
+      "source_ref": "cr-2026-05-04",
+      "quote_origin": "motion_de_rejet",
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V6319", "pour": 0, "contre": 60, "abstention": 0, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "LIOT",
+      "stance": "mitige",
+      "stance_basis": "scrutin_derived",
+      "justification": "Le groupe LIOT votera contre la motion de rejet préalable.",
+      "speaker": "Laurent Mazaury",
+      "source_ref": "cr-2026-05-04",
+      "quote_origin": "motion_de_rejet",
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V6319", "pour": 10, "contre": 7, "abstention": 4, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "NI",
+      "stance": "pour",
+      "stance_basis": "scrutin_derived",
+      "justification": null,
+      "justification_status": "exempt_structurel",
+      "justification_exempt": "les députés non inscrits n’ont pas d’orateur de groupe : la position est individuelle par construction, aucune déclaration collective ne peut exister",
+      "speaker": null,
+      "source_ref": null,
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V6319", "pour": 6, "contre": 1, "abstention": 0, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "RN",
+      "stance": "pour",
+      "stance_basis": "scrutin_derived",
+      "justification": "Notre groupe jugera si ses lacunes l’emportent ou non sur ses apports, mais une chose est certaine : la France méritait mieux que ce texte.",
+      "speaker": "Théo Bernhardt",
+      "source_ref": "cr-2026-05-04",
+      "quote_origin": "motion_de_rejet",
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V6319", "pour": 109, "contre": 0, "abstention": 0, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "SOC",
+      "stance": "contre",
+      "stance_basis": "sourced",
+      "justification": "Pour toutes ces raisons, le groupe Socialistes et apparentés votera pour cette motion de rejet préalable.",
+      "speaker": "Peio Dufau",
+      "source_ref": "cr-2026-05-04",
+      "quote_origin": "motion_de_rejet",
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V6319", "pour": 0, "contre": 64, "abstention": 1, "nonvotant": 0 }
+      ]
+    },
+    {
+      "group": "UDDPLR",
+      "stance": "pour",
+      "stance_basis": "sourced",
+      "justification": "Pour défendre l’argent des Français, nous voterons contre la motion de rejet préalable.",
+      "speaker": "Antoine Valentin",
+      "source_ref": "cr-2026-05-04",
+      "quote_origin": "motion_de_rejet",
+      "evidence": [
+        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V6319", "pour": 16, "contre": 0, "abstention": 0, "nonvotant": 0 }
+      ]
+    }
+  ],
+  "sources": [
+    { "id": "np-opendata" },
+    { "id": "an-scrutin-6319" },
+    { "id": "cr-2026-05-04" }
+  ],
+  "revisions": []
+}

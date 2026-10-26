@@ -133,5 +133,23 @@
     "date": "2026-07-21",
     "licence": "Licence Ouverte 2.0 (Etalab)",
     "archive_url": null
+  },
+  {
+    "id": "cr-2026-05-04",
+    "kind": "officiel",
+    "title": "Compte rendu de la séance du 4 mai 2026 (lutte contre les fraudes sociales et fiscales)",
+    "url": "https://www.assemblee-nationale.fr/dyn/17/comptes-rendus/seance/CRSANR5L17S2026O1N220",
+    "date": "2026-05-04",
+    "licence": "Document parlementaire public — citation courte",
+    "archive_url": null
+  },
+  {
+    "id": "an-scrutin-6319",
+    "kind": "officiel",
+    "title": "Assemblée nationale — analyse du scrutin public n° 6319",
+    "url": "https://www.assemblee-nationale.fr/dyn/17/scrutins/6319",
+    "date": "2026-05-04",
+    "licence": "Licence Ouverte 2.0 (Etalab)",
+    "archive_url": null
   }
 ]

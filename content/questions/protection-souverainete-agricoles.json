@@ -156,7 +156,7 @@
           "kind": "scrutin",
           "chambre": "an",
           "scrutin_id": "VTANR5L17V8427",
-          "pour": 50,
+          "pour": 51,
           "contre": 15,
           "abstention": 16,
           "nonvotant": 1
@@ -196,7 +196,7 @@
           "kind": "scrutin",
           "chambre": "an",
           "scrutin_id": "VTANR5L17V8427",
-          "pour": 25,
+          "pour": 24,
           "contre": 3,
           "abstention": 4,
           "nonvotant": 0
@@ -258,7 +258,7 @@
           "chambre": "an",
           "scrutin_id": "VTANR5L17V8427",
           "pour": 7,
-          "contre": 2,
+          "contre": 1,
           "abstention": 2,
           "nonvotant": 0
         }
@@ -298,7 +298,7 @@
           "chambre": "an",
           "scrutin_id": "VTANR5L17V8427",
           "pour": 0,
-          "contre": 65,
+          "contre": 66,
           "abstention": 2,
           "nonvotant": 0
         }

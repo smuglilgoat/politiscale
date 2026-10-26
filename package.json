@@ -8,6 +8,9 @@
     "validate": "node pipeline/validate-content.mjs",
     "extract-commission": "node pipeline/extract-commission.mjs",
     "extract-explications": "node pipeline/extract-explications.mjs",
-    "rank-scrutins": "node pipeline/rank-scrutins.mjs"
+    "rank-scrutins": "node pipeline/rank-scrutins.mjs",
+    "an-scrutin-groups": "node pipeline/an-scrutin-groups.mjs",
+    "sync-evidence": "node pipeline/sync-evidence.mjs",
+    "select-texts": "node pipeline/select-texts.mjs"
   }
 }

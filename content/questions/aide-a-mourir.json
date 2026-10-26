@@ -2,7 +2,10 @@
   "id": "aide-a-mourir",
   "country": "fr",
   "locale": "fr",
-  "themes": ["fin_de_vie", "sante"],
+  "themes": [
+    "fin_de_vie",
+    "sante"
+  ],
   "version": "1.0.0",
   "as_of": "2026-07-15",
   "situation": "À trois reprises, l’Assemblée nationale a adopté cette proposition de loi ; à trois reprises, le Sénat l’a rejetée. Le texte crée un droit à l’aide à mourir pour des patients atteints d’une maladie grave et incurable, dans des conditions strictes et sous le contrôle de professionnels de santé. Le 15 juillet 2026, en lecture définitive, les députés l’ont adopté par 291 voix contre 241 et 29 abstentions.",
@@ -25,37 +28,83 @@
     "pourquoi": "règle B : le vote le plus clivant des étapes intelligibles — clivage 0,643, marge 0,089, 37,4 % des votants dans un groupe fracturé (743 scrutins analysés, 7 retenus après filtres)."
   },
   "navette": [
-    { "etape": "lectures_anterieures", "chambre": null, "date": "2026-02-24", "gap": true, "gap_reason": "lectures antérieures non modélisées : trois adoptions à l’Assemblée, trois rejets au Sénat" },
-    { "etape": "ensemble_2e_lecture", "chambre": "an", "date": "2026-02-24", "scrutin": "VTANR5L17V5729", "vote": { "pour": 299, "contre": 226, "abstention": 37 } },
-    { "etape": "lecture_definitive_an", "chambre": "an", "date": "2026-07-15", "scrutin": "VTANR5L17V8280", "vote": { "pour": 291, "contre": 241, "abstention": 29 } },
-    { "etape": "suite_inconnue", "chambre": null, "date": "2026-07-15", "gap": true, "gap_reason": "sort du texte (Conseil constitutionnel, promulgation) non documenté : état inconnu" }
+    {
+      "etape": "lectures_anterieures",
+      "chambre": null,
+      "date": "2026-02-24",
+      "gap": true,
+      "gap_reason": "lectures antérieures non modélisées : trois adoptions à l’Assemblée, trois rejets au Sénat"
+    },
+    {
+      "etape": "ensemble_2e_lecture",
+      "chambre": "an",
+      "date": "2026-02-24",
+      "scrutin": "VTANR5L17V5729",
+      "vote": {
+        "pour": 299,
+        "contre": 226,
+        "abstention": 37
+      }
+    },
+    {
+      "etape": "lecture_definitive_an",
+      "chambre": "an",
+      "date": "2026-07-15",
+      "scrutin": "VTANR5L17V8280",
+      "vote": {
+        "pour": 291,
+        "contre": 241,
+        "abstention": 29
+      }
+    },
+    {
+      "etape": "suite_inconnue",
+      "chambre": null,
+      "date": "2026-07-15",
+      "gap": true,
+      "gap_reason": "sort du texte (Conseil constitutionnel, promulgation) non documenté : état inconnu"
+    }
   ],
   "positions": [
     {
       "group": "DEM",
       "stance": "mitige",
       "stance_basis": "scrutin_derived",
-      "justification": null,
-      "justification_status": "introuvable",
-      "justification_exempt": "l’oratrice du groupe s’exprime sur le respect des convictions et la liberté de vote, sans énoncer de position de groupe ; aucun propos de position retrouvé dans son intervention",
+      "justification": "certains députés Démocrates voteront en faveur de ce texte, d’autres s’y opposeront et d’autres enfin choisiront l’abstention.",
       "speaker": "Sabine Gervais",
       "source_ref": "cr-2026-07-15",
       "evidence": [
-        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8280", "pour": 20, "contre": 16, "abstention": 0, "nonvotant": 0 }
-      ]
+        {
+          "kind": "scrutin",
+          "chambre": "an",
+          "scrutin_id": "VTANR5L17V8280",
+          "pour": 20,
+          "contre": 16,
+          "abstention": 0,
+          "nonvotant": 0
+        }
+      ],
+      "quote_origin": "texte_final"
     },
     {
       "group": "DR",
       "stance": "contre",
       "stance_basis": "scrutin_derived",
-      "justification": null,
-      "justification_status": "introuvable",
-      "justification_exempt": "les deux orateurs du groupe traitent de la méthode et du doute de conscience sans énoncer de position de groupe ; aucun propos de position retrouvé",
-      "speaker": null,
-      "source_ref": null,
+      "justification": "Il demeure le plus permissif au monde, dans un cadre très imprécis qui laissera les médecins décisionnaires face à leur conscience.",
+      "speaker": "Justine Gruet",
+      "source_ref": "cr-2026-07-15",
       "evidence": [
-        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8280", "pour": 5, "contre": 41, "abstention": 2, "nonvotant": 0 }
-      ]
+        {
+          "kind": "scrutin",
+          "chambre": "an",
+          "scrutin_id": "VTANR5L17V8280",
+          "pour": 5,
+          "contre": 41,
+          "abstention": 2,
+          "nonvotant": 0
+        }
+      ],
+      "quote_origin": "texte_final"
     },
     {
       "group": "ECOS",
@@ -66,7 +115,15 @@
       "source_ref": "cr-2026-07-15",
       "quote_origin": "texte_final",
       "evidence": [
-        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8280", "pour": 33, "contre": 2, "abstention": 1, "nonvotant": 0 }
+        {
+          "kind": "scrutin",
+          "chambre": "an",
+          "scrutin_id": "VTANR5L17V8280",
+          "pour": 33,
+          "contre": 2,
+          "abstention": 1,
+          "nonvotant": 0
+        }
       ]
     },
     {
@@ -78,7 +135,15 @@
       "source_ref": "cr-2026-07-15",
       "quote_origin": "texte_final",
       "evidence": [
-        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8280", "pour": 64, "contre": 18, "abstention": 9, "nonvotant": 0 }
+        {
+          "kind": "scrutin",
+          "chambre": "an",
+          "scrutin_id": "VTANR5L17V8280",
+          "pour": 64,
+          "contre": 18,
+          "abstention": 9,
+          "nonvotant": 0
+        }
       ]
     },
     {
@@ -90,7 +155,15 @@
       "source_ref": "cr-2026-07-15",
       "quote_origin": "texte_final",
       "evidence": [
-        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8280", "pour": 10, "contre": 2, "abstention": 3, "nonvotant": 0 }
+        {
+          "kind": "scrutin",
+          "chambre": "an",
+          "scrutin_id": "VTANR5L17V8280",
+          "pour": 10,
+          "contre": 2,
+          "abstention": 3,
+          "nonvotant": 0
+        }
       ]
     },
     {
@@ -102,7 +175,15 @@
       "source_ref": "cr-2026-07-15",
       "quote_origin": "texte_final",
       "evidence": [
-        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8280", "pour": 16, "contre": 18, "abstention": 1, "nonvotant": 0 }
+        {
+          "kind": "scrutin",
+          "chambre": "an",
+          "scrutin_id": "VTANR5L17V8280",
+          "pour": 16,
+          "contre": 18,
+          "abstention": 1,
+          "nonvotant": 0
+        }
       ]
     },
     {
@@ -114,7 +195,15 @@
       "source_ref": "cr-2026-07-15",
       "quote_origin": "texte_final",
       "evidence": [
-        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8280", "pour": 61, "contre": 2, "abstention": 3, "nonvotant": 0 }
+        {
+          "kind": "scrutin",
+          "chambre": "an",
+          "scrutin_id": "VTANR5L17V8280",
+          "pour": 61,
+          "contre": 2,
+          "abstention": 3,
+          "nonvotant": 0
+        }
       ]
     },
     {
@@ -126,7 +215,15 @@
       "source_ref": "cr-2026-07-15",
       "quote_origin": "texte_final",
       "evidence": [
-        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8280", "pour": 10, "contre": 8, "abstention": 4, "nonvotant": 0 }
+        {
+          "kind": "scrutin",
+          "chambre": "an",
+          "scrutin_id": "VTANR5L17V8280",
+          "pour": 10,
+          "contre": 8,
+          "abstention": 4,
+          "nonvotant": 0
+        }
       ]
     },
     {
@@ -139,7 +236,15 @@
       "speaker": null,
       "source_ref": null,
       "evidence": [
-        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8280", "pour": 3, "contre": 7, "abstention": 0, "nonvotant": 0 }
+        {
+          "kind": "scrutin",
+          "chambre": "an",
+          "scrutin_id": "VTANR5L17V8280",
+          "pour": 3,
+          "contre": 7,
+          "abstention": 0,
+          "nonvotant": 0
+        }
       ]
     },
     {
@@ -151,7 +256,15 @@
       "source_ref": "cr-2026-07-15",
       "quote_origin": "texte_final",
       "evidence": [
-        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8280", "pour": 12, "contre": 106, "abstention": 0, "nonvotant": 0 }
+        {
+          "kind": "scrutin",
+          "chambre": "an",
+          "scrutin_id": "VTANR5L17V8280",
+          "pour": 12,
+          "contre": 106,
+          "abstention": 0,
+          "nonvotant": 0
+        }
       ]
     },
     {
@@ -163,7 +276,15 @@
       "source_ref": "cr-2026-07-15",
       "quote_origin": "texte_final",
       "evidence": [
-        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8280", "pour": 57, "contre": 4, "abstention": 6, "nonvotant": 0 }
+        {
+          "kind": "scrutin",
+          "chambre": "an",
+          "scrutin_id": "VTANR5L17V8280",
+          "pour": 57,
+          "contre": 4,
+          "abstention": 6,
+          "nonvotant": 0
+        }
       ]
     },
     {
@@ -175,15 +296,31 @@
       "source_ref": "cr-2026-07-15",
       "quote_origin": "texte_final",
       "evidence": [
-        { "kind": "scrutin", "chambre": "an", "scrutin_id": "VTANR5L17V8280", "pour": 0, "contre": 17, "abstention": 0, "nonvotant": 0 }
+        {
+          "kind": "scrutin",
+          "chambre": "an",
+          "scrutin_id": "VTANR5L17V8280",
+          "pour": 0,
+          "contre": 17,
+          "abstention": 0,
+          "nonvotant": 0
+        }
       ]
     }
   ],
   "sources": [
-    { "id": "np-opendata" },
-    { "id": "an-scrutin-8280" },
-    { "id": "an-scrutin-5729" },
-    { "id": "cr-2026-07-15" }
+    {
+      "id": "np-opendata"
+    },
+    {
+      "id": "an-scrutin-8280"
+    },
+    {
+      "id": "an-scrutin-5729"
+    },
+    {
+      "id": "cr-2026-07-15"
+    }
   ],
   "revisions": []
 }

@@ -14,7 +14,9 @@ Projet au **M1c terminé**, M1d non commencé. **Une** question complète, **auc
 - `pipeline/` : `fetch-snapshot`, `group-votes`, `an-scrutin-groups`, `sync-evidence`,
   `rank-scrutins`, `select-texts`, `extract-explications`, `extract-commission`,
   `validate-content` (porte bloquante).
-- Aucune app Svelte, aucun moteur de score. Prochain jalon : **M2**.
+- **App** : Svelte 5 + Vite, 100 % statique (`src/`), 5 questions jouables, résultat + export JSON,
+  `localStorage` sous la clé `hemicycle.v1`. Build ~91 kB (30 kB gzip). 7 tests sur le calcul.
+- Aucun backend, aucune requête réseau à l'exécution : le contenu est bundlé au build.
 
 ## [DÉCISIONS]
 

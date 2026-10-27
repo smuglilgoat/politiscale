@@ -11,6 +11,15 @@
     "rank-scrutins": "node pipeline/rank-scrutins.mjs",
     "an-scrutin-groups": "node pipeline/an-scrutin-groups.mjs",
     "sync-evidence": "node pipeline/sync-evidence.mjs",
-    "select-texts": "node pipeline/select-texts.mjs"
+    "select-texts": "node pipeline/select-texts.mjs",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "node --test tests/*.test.js"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^6.2.4",
+    "svelte": "^5.57.3",
+    "vite": "^7.3.7"
   }
 }

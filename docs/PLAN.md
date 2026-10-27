@@ -481,7 +481,7 @@ docs/  PLAN.md  METHODOLOGY.md
 | M1b | Pipeline versionné + 1 question réelle (faits) | `npm run validate` échoue sur `justification: null` |
 | M1c | Justifications sourcées pour 1 question | **fait** — 11/12 groupes, verbatim du compte rendu |
 | M1d | 5 questions bout en bout, ancrage par la règle B | chaque citation se résout vers un scrutin ou un compte rendu |
-| M2 | App Svelte : parcours, résultat, localStorage, build statique | 5 questions jouables hors ligne, résultat exportable |
+| M2 | App Svelte : parcours, résultat, localStorage, build statique | **fait** — build 91 kB, 7 tests unitaires, export JSON. Vérification visuelle non automatisée (pas de navigateur pilotable ici) |
 | M3 | ~40 questions, équilibre thématique, `METHODOLOGY.md`, a11y | porte verte, quota tenu |
 | M4 | Publication, droit de réponse, suivi | — |
 
